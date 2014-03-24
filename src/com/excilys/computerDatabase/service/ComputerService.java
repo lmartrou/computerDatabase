@@ -29,6 +29,7 @@ public enum ComputerService {
 		log.setOperation("getListComputer");
 
 		try {
+		
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
 			listComputer = DaoFactory.getInstance().getListComputer(
