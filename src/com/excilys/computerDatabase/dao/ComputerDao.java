@@ -27,10 +27,10 @@ public enum ComputerDao {
 	}
 
 
-	public List<Computer> getListComputer(ComputerWrapper computerWrapper,Connection cn) throws SQLException {
+	public List<ComputerDto> getListComputer(ComputerWrapper computerWrapper,Connection cn) throws SQLException {
 
 
-		ArrayList<Computer> listeComputeur  = new ArrayList<Computer>();
+		ArrayList<ComputerDto> listComputer  = new ArrayList<ComputerDto>();
 		ResultSet rs = null ;
 		PreparedStatement stmt = null;
 		if(computerWrapper.getFilterby()=="" || computerWrapper.getFilterby() == null){
@@ -60,21 +60,18 @@ public enum ComputerDao {
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
-
-			Company comp=Company.builder()
-					.id(rs.getLong(5))
-					.name(rs.getString(6))
-					.build();
-
-			Computer p = Computer.builder()
+			
+					ComputerDto p = ComputerDto.builder()
 					.id(rs.getLong(1))
 					.name(rs.getString(2))
-					.introduced(rs.getDate(3))
-					.discontinued(rs.getDate(4))
-					.company(comp)
+					.introduced(rs.getString(3))
+					.discontinued(rs.getString(4))
+					.company(rs.getLong(5))
+					.company(rs.getString(6))
 					.build();
 
-			listeComputeur.add(p);
+					listComputer.add(p);	
+			
 		}
 
 		if (rs != null){
@@ -87,7 +84,7 @@ public enum ComputerDao {
 			stmt.close();
 		}
 
-		return listeComputeur;
+		return listComputer;
 	}
 
 
@@ -202,7 +199,6 @@ public enum ComputerDao {
 		rs.next();
 
 		count=rs.getLong(1);
-
 
 		if (rs != null){
 

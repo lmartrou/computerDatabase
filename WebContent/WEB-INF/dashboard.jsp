@@ -37,11 +37,9 @@
 		<form action="AddComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}" method="GET">
 			<input type="submit" id="addsubmit" name="addComputer"
 				value="addComputer"
-				class="btn primary">
+				class="btn primary"/>
 				</form>
 	</div>
-<html>
-<body>
 
 		<table border="1" cellpadding="5" cellspacing="5">
 		
@@ -58,33 +56,35 @@
 					<th>Company</th>
 					<!-- Table header for Delete -->
 					<th>Delete</th>
+					<!-- Table header for Edit -->
+					<th>Edit</th>
 				</tr>
 				
 
-				<c:forEach items="${listComputer}" var="computer">
+				<c:forEach items="${listComputer}" var="computerDto">
 				<tr>
    					<td>
-   					<c:out value="${computer.getName()}"/> 
+   					<c:out value="${computerDto.getName()}"/> 
    					</td>
    					
    					<td>
-   					<c:out value="${computer.getIntroduced()}"/> 
+   					<c:out value="${computerDto.getIntroduced()}"/> 
    					</td>
    					
    					<td>
-   					<c:out value="${computer.getDiscontinued()}"/> 
+   					<c:out value="${computerDto.getDiscontinued()}"/> 
    					</td>
    					
    					<td>
-   					<c:out value="${computer.getCompany().getName()}"/> 
+   					<c:out value="${computerDto.getCompanyName()}"/> 
    					</td>
    					
    					<td>
-   					<a class="btn danger" id="delete" href="DeleteComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computer.getId()}">Delete </a>
+   					<a class="btn danger" id="delete" href="DeleteComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computerDto.getId()}">Delete </a>
    					</td>
    					
    					<td>
-   					<a class="btn success" id="edit" href="EditComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computer.getId()}">Edit</a>
+   					<a class="btn success" id="edit" href="EditComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computerDto.getId()}">Edit</a>
    					</td>
    					
 					</tr>
@@ -118,8 +118,7 @@
         <td><a href="getComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${currentPage + 1}">Next</a></td>
     </c:if>
 			
-</body>
-</html>
+
 		
 		
 </section>

@@ -36,7 +36,7 @@ public enum ServiceFactory {
 		return getCompanyService().getListCompany();
 	}
 	
-	public List<Computer> getListComputer(ComputerWrapper computerWrapper){
+	public List<ComputerDto> getListComputer(ComputerWrapper computerWrapper){
 		
 		return getComputerService().getListComputer(computerWrapper);
 	}
@@ -55,6 +55,7 @@ public enum ServiceFactory {
 		getComputerService().editComputer(computer);
 	}
 	public ComputerWrapper pagination(ComputerWrapper computerWrapper){
-		return getComputerService().pagination(computerWrapper);
-	}
+return getComputerService().pagination(computerWrapper);
+}
+	
 }

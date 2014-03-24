@@ -11,7 +11,7 @@ public class ComputerWrapper {
 	private int noOfPage;
 	private Long id,company,count,numberPerPage;
 	private Date introduced,discontinued;
-	private List<Computer> listComputer;
+	private List<ComputerDto> listComputer;
 	
 	public int getNoOfPage() {
 		return noOfPage;
@@ -25,11 +25,11 @@ public class ComputerWrapper {
 	public void setCount(Long count) {
 		this.count = count;
 	}
-	public List<Computer> getListComputer() {
+	public List<ComputerDto> getListComputer() {
 		return listComputer;
 	}
-	public void setListComputer(List<Computer> listComputer) {
-		this.listComputer = listComputer;
+	public void setListComputer(List<ComputerDto> list) {
+		this.listComputer = list;
 	}
 	public String getFilter() {
 		return filter;
@@ -91,6 +91,16 @@ public class ComputerWrapper {
 	}
 	public void setDiscontinued(Date discontinued) {
 		this.discontinued = discontinued;
+	}
+	@Override
+	public String toString() {
+		return "ComputerWrapper [filter=" + filter + ", filterby=" + filterby
+				+ ", order=" + order + ", offset=" + offset + ", name=" + name
+				+ ", noOfPage=" + noOfPage + ", id=" + id + ", company="
+				+ company + ", count=" + count + ", numberPerPage="
+				+ numberPerPage + ", introduced=" + introduced
+				+ ", discontinued=" + discontinued + ", listComputer="
+				+ listComputer + "]";
 	}
 
 }

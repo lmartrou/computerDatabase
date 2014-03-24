@@ -21,7 +21,6 @@ public enum CompanyService {
 		return INSTANCE;
 	}
 
-	@SuppressWarnings("finally")
 	public List<Company> getListCompany(){
 
 
@@ -30,13 +29,20 @@ public enum CompanyService {
 		try {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
+
 			companyList=DaoFactory.getInstance().getListCompany(cn);
-			cn.commit();
+cn.commit();
 
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			cn.rollback();
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		}finally{
 
 
@@ -49,9 +55,9 @@ public enum CompanyService {
 				}
 			}
 
-			return companyList;
 
 		}
+		return companyList;
 
 	}
 
