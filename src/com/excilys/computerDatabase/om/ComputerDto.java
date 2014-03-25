@@ -6,8 +6,9 @@ public class ComputerDto {
 		private String name;
 		private String introduced;
 		private String discontinued;
-		private Long company
-		;
+		private Long company;
+		private String companyName;
+		
 		public String getCompanyName() {
 			return companyName;
 		}
@@ -17,7 +18,7 @@ public class ComputerDto {
 			this.companyName = companyName;
 		}
 
-		private String companyName;
+	
 
 
 		public ComputerDto() {
@@ -131,7 +132,7 @@ public class ComputerDto {
 				this.computerDto.company = company;
 				return this;
 			}
-			public Builder company(String companyName) {
+			public Builder companyName(String companyName) {
 				this.computerDto.companyName = companyName;
 				return this;
 			}

@@ -85,7 +85,7 @@
    					</td>
    					
    					<td>
-   					<a class="btn success" id="edit" href="EditComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computerDto.getId()}">Edit</a>
+   					<a class="btn success" id="edit" href="EditComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&computerId=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
    					</td>
    					
 					</tr>

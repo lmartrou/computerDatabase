@@ -27,7 +27,15 @@ public class EditComputer extends HttpServlet {
 	private static final String FIELD_FILTER="search";
 	private static final String FIELD_FILTERBY="filterby";
 	private static final String FIELD_ORDER="orderby";
-	private static final String FIELD_ID="id";
+	private static final String FIELD_ID="computerId";
+	private static final String FIELD_IN="computerIntroduced";
+	private static final String FIELD_DI="computerDiscontinued";
+	private static final String FIELD_CO="computerCompany";
+	private static final String FIELD_CON="companyName";
+	private static final String FIELD_NA="computerName";
+	
+
+	
 	private static final String FIELD_PAGE="page";
 
 	/**
@@ -48,14 +56,24 @@ public class EditComputer extends HttpServlet {
 			String filter=(String)request.getParameter(FIELD_FILTER);
 			String filterby=(String)request.getParameter(FIELD_FILTERBY);
 			String order=(String)request.getParameter(FIELD_ORDER);
-			String id=(String)request.getParameter(FIELD_ID);
+			ComputerDto p = ComputerDto.builder()
+					.id(Long.valueOf(request.getParameter(FIELD_ID)))
+					.name(request.getParameter(FIELD_NA))
+					.introduced(request.getParameter(FIELD_IN))
+					.discontinued(request.getParameter(FIELD_DI))
+					.companyName(request.getParameter(FIELD_CON))
+					.company(Long.valueOf(request.getParameter(FIELD_CO)))
+					.build();
+
+			
 			String page=(String)request.getParameter(FIELD_PAGE);
 			
 			request.setAttribute("listCompany",listCompany);
 			request.setAttribute(FIELD_FILTER,filter);
 			request.setAttribute(FIELD_FILTERBY,filterby);
 			request.setAttribute(FIELD_ORDER,order);
-			request.setAttribute(FIELD_ID,id);
+			request.setAttribute("computer",p);
+			
 			request.setAttribute(FIELD_PAGE,page);
 			request.getRequestDispatcher(VIEW_BIS).forward(request,response);      
 

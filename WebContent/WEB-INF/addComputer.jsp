@@ -10,7 +10,7 @@
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="name" />
+					<input data-validation="required" type="text" name="name" />
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -18,14 +18,14 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="date" name="introducedDate" pattern="YY-MM-dd"/>
+					<input data-validation="date" type="text" name="introducedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input type="date" name="discontinuedDate" pattern="YY-MM-dd"/>
+					<input data-validation="date" type="text" name="discontinuedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
@@ -50,5 +50,9 @@
 		</div>
 	</form>
 </section>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"></script>
+<script> $.validate(); </script>
 
 <jsp:include page="include/footer.jsp" />

@@ -5,12 +5,12 @@
 
 	<h1>Edit Computer</h1>
 	
-	<form action="EditComputer?search=${search}&filterby=${filterby}&orderby=${orderby}&page=${page}&id=${id}" method="POST">
+	<form action="EditComputer?search=${search}&filterby=${filterby}&orderby=${orderby}&page=${page}&id=${computer.getId()}" method="POST">
 		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="name" />
+					<input value="${computer.getName()}" data-validation="required" type="text" name="name" />
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -18,14 +18,14 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="date" name="introducedDate" pattern="YY-MM-dd"/>
+					<input value="${computer.getIntroduced()}" data-validation="date" type="text" name="introducedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input type="date" name="discontinuedDate" pattern="YY-MM-dd"/>
+					<input value="${computer.getDiscontinued()}" data-validation="date" type="text" name="discontinuedDate" pattern="YY-MM-dd"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
@@ -33,11 +33,12 @@
 				<label for="company">Company Name:</label>
 				<div class="input">
 					<select name="company">
-					<option value="0"></option>
-					<c:forEach items="${listCompany}" var="company">
 					
+					<option value="${computer.getCompany()}">${computer.getCompanyName()}</option>
+					<c:forEach items="${listCompany}" var="company">
+					<c:if test="${company.id != computer.getCompany()}">
 						<option value="${company.id }">${company.name}</option>
-						
+						</c:if>
 				</c:forEach>
 						
 					</select>
@@ -50,5 +51,9 @@
 		</div>
 	</form>
 </section>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"></script>
+<script> $.validate(); </script>
 
 <jsp:include page="include/footer.jsp" />

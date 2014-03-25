@@ -67,7 +67,7 @@ public enum ComputerDao {
 					.introduced(rs.getString(3))
 					.discontinued(rs.getString(4))
 					.company(rs.getLong(5))
-					.company(rs.getString(6))
+					.companyName(rs.getString(6))
 					.build();
 
 					listComputer.add(p);	
