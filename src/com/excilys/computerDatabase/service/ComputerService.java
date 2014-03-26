@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
-
 import com.excilys.computerDatabase.dao.DaoFactory;
 import com.excilys.computerDatabase.om.Computer;
-import com.excilys.computerDatabase.om.ComputerDto;
-import com.excilys.computerDatabase.om.ComputerWrapper;
 import com.excilys.computerDatabase.om.Log;
+import com.excilys.computerDatabase.wrapper.ComputerWrapper;
 
 public enum ComputerService {
 	INSTANCE;
@@ -22,9 +20,9 @@ public enum ComputerService {
 	}
 
 
-	public List<ComputerDto> getListComputer(ComputerWrapper computerWrapper) {
+	public List<Computer> getListComputer(ComputerWrapper computerWrapper) {
 		Connection cn = null;
-		List<ComputerDto> listComputer = null;
+		List<Computer> listComputer = null;
 		Log log=new Log();
 		log.setOperation("getListComputer");
 
@@ -32,9 +30,8 @@ public enum ComputerService {
 		
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
-			listComputer = DaoFactory.getInstance().getListComputer(
-					computerWrapper, cn);
-			DaoFactory.getInstance().insereLog(log, cn);
+			listComputer = DaoFactory.getInstance().getComputerDao().getListComputer(computerWrapper);
+			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -47,20 +44,13 @@ public enum ComputerService {
 			}
 
 		} finally {
-			if (cn != null) {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			DaoFactory.getInstance().closeConnection();
 
 		}
 		return listComputer;
 	}
 
-	public void insereComputer(ComputerDto computer) {
+	public void insereComputer(Computer computer) {
 		Connection cn = null;
 		Log log=new Log();
 		log.setOperation("insereComputer");
@@ -71,8 +61,8 @@ public enum ComputerService {
 		try {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
-			DaoFactory.getInstance().insereComputer(computer, cn);
-			DaoFactory.getInstance().insereLog(log, cn);
+			DaoFactory.getInstance().getComputerDao().insereComputer(computer);
+			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -102,29 +92,22 @@ public enum ComputerService {
 				e1.printStackTrace();
 			}
 		} finally {
-			if (cn != null) {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			DaoFactory.getInstance().closeConnection();
+			
 		}
 
 	}
 
-	public void deleteComputer(ComputerWrapper computerWrapper) {
+	public void deleteComputer(Long id) {
 		Connection cn = null;
 		Log log=new Log();
 		log.setOperation("deleteComputer");
-		log.setComputerId(computerWrapper.getId());
-	    log.setComputerName(computerWrapper.getName());
+		log.setComputerId(id);
 		try {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
-			DaoFactory.getInstance().deleteComputer(computerWrapper, cn);
-			DaoFactory.getInstance().insereLog(log, cn);
+			DaoFactory.getInstance().getComputerDao().deleteComputer(id);
+			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -145,31 +128,27 @@ public enum ComputerService {
 				e1.printStackTrace();
 			}
 		} finally {
-			if (cn != null) {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			DaoFactory.getInstance().closeConnection();
 		}
 	}
 
 
-	public Long countComputer(ComputerWrapper computerWrapper) {
+	public Computer getComputer(Long id){
 		Connection cn = null;
-		Long count = null;
+		Computer computer = null;
 		Log log=new Log();
-		log.setOperation("countComputer");
-	
+		log.setOperation("getComputer");
+
 		try {
+		
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
-			count = DaoFactory.getInstance().countComputer(computerWrapper, cn);
-			DaoFactory.getInstance().insereLog(log, cn);
+			computer = DaoFactory.getInstance().getComputerDao().getComputer(id);
+			log.setComputerId(id);
+			log.setComputerName(computer.getName());
+			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			try {
@@ -178,30 +157,16 @@ public enum ComputerService {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+
 		} finally {
-			if (cn != null) {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			DaoFactory.getInstance().closeConnection();
 
 		}
-		return count;
+		return computer;
+	
 	}
 
-	public void editComputer(ComputerDto computer) {
+	public void editComputer(Computer computer) {
 		Connection cn = null;
 		Log log=new Log();
 		log.setOperation("editComputer");
@@ -210,8 +175,8 @@ public enum ComputerService {
 		try {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
-			DaoFactory.getInstance().editComputer(computer, cn);
-			DaoFactory.getInstance().insereLog(log, cn);
+			DaoFactory.getInstance().getComputerDao().editComputer(computer);
+			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -241,14 +206,9 @@ public enum ComputerService {
 				e1.printStackTrace();
 			}
 		} finally {
-			if (cn != null) {
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			
+					DaoFactory.getInstance().closeConnection();
+	
 		}
 	}
 
@@ -260,8 +220,8 @@ public enum ComputerService {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
 
-			computerWrapper.setListComputer(DaoFactory.getInstance().getListComputer(computerWrapper,cn));
-			computerWrapper.setCount(DaoFactory.getInstance().countComputer(computerWrapper,cn));
+			computerWrapper.setListComputer(DaoFactory.getInstance().getComputerDao().getListComputer(computerWrapper));
+			computerWrapper.setCount(DaoFactory.getInstance().getComputerDao().countComputer(computerWrapper));
 			computerWrapper.setNoOfPage((int) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
 			cn.commit();
 		} catch (ClassNotFoundException e) {
@@ -286,15 +246,7 @@ public enum ComputerService {
 		}finally{
 
 
-			if(cn!=null){
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
+			DaoFactory.getInstance().closeConnection();
 
 		}
 		return computerWrapper;

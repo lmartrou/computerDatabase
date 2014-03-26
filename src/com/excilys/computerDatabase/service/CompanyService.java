@@ -30,8 +30,8 @@ public enum CompanyService {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
 
-			companyList=DaoFactory.getInstance().getListCompany(cn);
-cn.commit();
+			companyList=DaoFactory.getInstance().getCompanyDao().getListCompany();
+			cn.commit();
 
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -45,16 +45,8 @@ cn.commit();
 
 		}finally{
 
-
-			if(cn!=null){
-				try {
-					cn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
+			DaoFactory.getInstance().closeConnection();
+			
 
 		}
 		return companyList;

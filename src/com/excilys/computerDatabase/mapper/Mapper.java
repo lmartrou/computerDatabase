@@ -4,6 +4,7 @@ package com.excilys.computerDatabase.mapper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import com.excilys.computerDatabase.Dto.ComputerDto;
 import com.excilys.computerDatabase.om.*;
 
 
@@ -29,12 +30,13 @@ public class Mapper {
 			cb.company(company);
 		}
 
-		if(dto.getIntroduced() != null && !dto.getIntroduced().isEmpty())
+		if(dto.getIntroduced() != null && !dto.getIntroduced().isEmpty()){
 			cb.introduced(dateFormat.parse(dto.getIntroduced()));
+		}
 
-		if(dto.getDiscontinued() != null && !dto.getDiscontinued().isEmpty())
+		if(dto.getDiscontinued() != null && !dto.getDiscontinued().isEmpty()){
 			cb.discontinued(dateFormat.parse(dto.getDiscontinued()));
-
+		}
 		return cb.build();
 	}
 
@@ -55,6 +57,7 @@ public class Mapper {
 
 		if(obj.getCompany() != null)
 			cdtob.company(obj.getCompany().getId());
+			cdtob.companyName(obj.getCompany().getName());
 
 		return cdtob.build();
 

@@ -1,7 +1,9 @@
-package com.excilys.computerDatabase.om;
+package com.excilys.computerDatabase.wrapper;
 
 import java.sql.Date;
 import java.util.List;
+
+import com.excilys.computerDatabase.om.Computer;
 
 
 
@@ -11,7 +13,7 @@ public class ComputerWrapper {
 	private int noOfPage;
 	private Long id,company,count,numberPerPage;
 	private Date introduced,discontinued;
-	private List<ComputerDto> listComputer;
+	private List<Computer> listComputer;
 	
 	public int getNoOfPage() {
 		return noOfPage;
@@ -25,10 +27,10 @@ public class ComputerWrapper {
 	public void setCount(Long count) {
 		this.count = count;
 	}
-	public List<ComputerDto> getListComputer() {
+	public List<Computer> getListComputer() {
 		return listComputer;
 	}
-	public void setListComputer(List<ComputerDto> list) {
+	public void setListComputer(List<Computer> list) {
 		this.listComputer = list;
 	}
 	public String getFilter() {

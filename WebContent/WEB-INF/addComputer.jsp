@@ -18,14 +18,14 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input data-validation="date" type="text" name="introducedDate"/>
+					<input data-validation="date" data-validation-optional="true" type="text" name="introducedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input data-validation="date" type="text" name="discontinuedDate"/>
+					<input data-validation="date" data-validation-optional="true" type="text" name="discontinuedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>

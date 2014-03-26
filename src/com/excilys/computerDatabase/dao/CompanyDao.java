@@ -24,7 +24,8 @@ public enum CompanyDao {
 
 	
 	
-	public List<Company> getListCompany(Connection cn) throws SQLException {
+	public List<Company> getListCompany() throws SQLException, ClassNotFoundException {
+		Connection cn=DaoFactory.getInstance().getConnection();
 		
 		ArrayList<Company> listeCompany  = new ArrayList<Company>();
 		ResultSet rs = null ;
@@ -50,14 +51,13 @@ public enum CompanyDao {
 					stmt.close();
 				}
 			
-		
 		return listeCompany;
 	}
 
 
-	public void insereCompany(Company company,Connection cn) throws SQLException {
+	public void insereCompany(Company company) throws SQLException, ClassNotFoundException {
 		
-		
+		Connection cn=DaoFactory.getInstance().getConnection();
 		PreparedStatement stmt = null;
 
 			stmt = cn.prepareStatement("INSERT into Company(id, name) VALUES(?,?,?,?,?);");

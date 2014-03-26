@@ -1,4 +1,4 @@
-package com.excilys.computerDatabase.om;
+package com.excilys.computerDatabase.Dto;
 
 public class ComputerDto {
 
@@ -53,11 +53,13 @@ public class ComputerDto {
 
 
 		public void setIntroduced(String introduced) {
+		
 			this.introduced = introduced;
-		}
+			}
 
 
 		public String getDiscontinued() {
+			
 			return discontinued;
 		}
 
@@ -119,12 +121,16 @@ public class ComputerDto {
 			}
 
 			public Builder introduced(String introduced) {
+				
 				this.computerDto.introduced = introduced;
+				
 				return this;
 			}
 
 			public Builder discontinued(String discontinued) {
+				
 				this.computerDto.discontinued = discontinued;
+				
 				return this;
 			}
 

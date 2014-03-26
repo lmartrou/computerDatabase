@@ -9,6 +9,7 @@ import java.io.IOException;
 
 
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,8 +17,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.computerDatabase.Dto.ComputerDto;
+import com.excilys.computerDatabase.mapper.Mapper;
 import com.excilys.computerDatabase.om.Company;
-import com.excilys.computerDatabase.om.ComputerDto;
+import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.service.ServiceFactory;
 
 
@@ -39,48 +42,57 @@ public class AddComputerServlet extends javax.servlet.http.HttpServlet implement
 	public AddComputerServlet() {
 		super();
 	}  
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-			ServiceFactory serviceFactory=ServiceFactory.getInstance();
+		ServiceFactory serviceFactory=ServiceFactory.getInstance();
 
-			List<Company> listCompany = serviceFactory.getListCompany();
+		List<Company> listCompany = serviceFactory.getCompanyService().getListCompany();
 
 
-			String filter=(String)request.getParameter(FIELD_FILTER);
-			String filterby=(String)request.getParameter(FIELD_FILTERBY);
-			String order=(String)request.getParameter(FIELD_ORDER);
-			String page=(String)request.getParameter(FIELD_PAGE);
-			
-			request.setAttribute("listCompany",listCompany);
-			request.setAttribute(FIELD_FILTER,filter);
-			request.setAttribute(FIELD_FILTERBY,filterby);
-			request.setAttribute(FIELD_ORDER,order);
-			request.setAttribute(FIELD_PAGE,page);
-			request.getRequestDispatcher(VIEW_BIS).forward(request,response);      
+		String filter=(String)request.getParameter(FIELD_FILTER);
+		String filterby=(String)request.getParameter(FIELD_FILTERBY);
+		String order=(String)request.getParameter(FIELD_ORDER);
+		String page=(String)request.getParameter(FIELD_PAGE);
+
+		request.setAttribute("listCompany",listCompany);
+		request.setAttribute(FIELD_FILTER,filter);
+		request.setAttribute(FIELD_FILTERBY,filterby);
+		request.setAttribute(FIELD_ORDER,order);
+		request.setAttribute(FIELD_PAGE,page);
+		request.getRequestDispatcher(VIEW_BIS).forward(request,response);      
 
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ComputerDto.Builder cb = ComputerDto.builder();
 		ServiceFactory serviceFactory =ServiceFactory.getInstance();
+		Mapper mapper=new Mapper();
 
-		
 		String filter=(String)request.getParameter(FIELD_FILTER);
 		String filterby=(String)request.getParameter(FIELD_FILTERBY);
 		String order=(String)request.getParameter(FIELD_ORDER);
 		String page=(String)request.getParameter(FIELD_PAGE);
-		
-		
-		cb.name(request.getParameter(FIELD_NAME))
-		.company(Long.valueOf(request.getParameter(FIELD_COMPANY)))
-		.introduced(request.getParameter(FIELD_INTRODUCED))
-		.discontinued(request.getParameter(FIELD_DISCONTINUED));
-		
-		serviceFactory.insereComputer(cb.build()); 
+
+
+		ComputerDto computerDto =ComputerDto.builder()
+				.name(request.getParameter(FIELD_NAME))
+				.company(Long.valueOf(request.getParameter(FIELD_COMPANY)))
+				.introduced(request.getParameter(FIELD_INTRODUCED))
+				.discontinued(request.getParameter(FIELD_DISCONTINUED))
+				.build();
+
+		Computer computer=null;
+		try {
+			computer = mapper.fromDto(computerDto);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		serviceFactory.getComputerService().insereComputer(computer); 
 
 		request.setAttribute(FIELD_FILTER,filter);
 		request.setAttribute(FIELD_FILTERBY,filterby);

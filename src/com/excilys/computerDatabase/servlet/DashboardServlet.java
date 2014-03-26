@@ -7,15 +7,20 @@ import java.io.IOException;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.computerDatabase.dao.DaoFactory;
+import com.excilys.computerDatabase.Dto.ComputerDto;
+import com.excilys.computerDatabase.mapper.Mapper;
 import com.excilys.computerDatabase.om.*;
 import com.excilys.computerDatabase.service.ServiceFactory;
+import com.excilys.computerDatabase.wrapper.ComputerWrapper;
 
 /**
  * Servlet implementation class DashboardServlet
@@ -45,8 +50,7 @@ public class DashboardServlet extends HttpServlet {
 		ComputerWrapper computerWrapper=new ComputerWrapper();
 		Long page=new Long(1);
 		Long numberPerPage=new Long(20);
-
-		ServiceFactory serviceFactory=ServiceFactory.getInstance();
+		Mapper mapper=new Mapper();
 
 
 		if(request.getParameter(FIELD_PAGE) != null && request.getParameter(FIELD_PAGE) != ""){
@@ -61,13 +65,18 @@ public class DashboardServlet extends HttpServlet {
 
 
 
-		computerWrapper=serviceFactory.pagination(computerWrapper);
 
+		computerWrapper=ServiceFactory.getInstance().getComputerService().pagination(computerWrapper);
 
+		List<Computer> listComputer =computerWrapper.getListComputer();
+		List<ComputerDto> listComputerDto=new ArrayList<ComputerDto>();
+		for (int i = 0; i < listComputer.size(); i++) {
+			listComputerDto.add(mapper.toDto(listComputer.get(i)));
+		}
 		request.setAttribute("noOfPage",computerWrapper.getNoOfPage());
 		request.setAttribute("currentPage", page);
 		request.setAttribute(FIELD_PAGE, page);
-		request.setAttribute("listComputer",computerWrapper.getListComputer());
+		request.setAttribute("listComputer",listComputerDto);
 		request.setAttribute("name",computerWrapper.getFilter());
 		request.setAttribute("filtrerpar",computerWrapper.getFilterby());
 		request.setAttribute("rangerpar",computerWrapper.getOrder());
@@ -90,8 +99,7 @@ public class DashboardServlet extends HttpServlet {
 		ComputerWrapper computerWrapper=new ComputerWrapper();
 		Long page=new Long(1);
 		Long numberPerPage=new Long(20);
-
-		ServiceFactory serviceFactory=ServiceFactory.getInstance();
+		Mapper mapper=new Mapper();
 
 
 		if(request.getParameter(FIELD_PAGE) != null && request.getParameter(FIELD_PAGE) != ""){
@@ -105,12 +113,19 @@ public class DashboardServlet extends HttpServlet {
 		computerWrapper.setNumberPerPage(Long.valueOf(numberPerPage));
 
 
-		computerWrapper=serviceFactory.pagination(computerWrapper);
-
+		computerWrapper=ServiceFactory.getInstance().getComputerService().pagination(computerWrapper);
+		
+		List<Computer> listComputer =computerWrapper.getListComputer();
+		List<ComputerDto> listComputerDto=new ArrayList<ComputerDto>();
+		
+		for (int i = 0; i < listComputer.size(); i++) {
+			listComputerDto.add(mapper.toDto(listComputer.get(i)));
+		}
+		
 		request.setAttribute("noOfPage",computerWrapper.getNoOfPage());
 		request.setAttribute("currentPage", page);
 		request.setAttribute(FIELD_PAGE, page);
-		request.setAttribute("listComputer",computerWrapper.getListComputer());
+		request.setAttribute("listComputer",listComputerDto);
 		request.setAttribute("name",computerWrapper.getFilter());
 		request.setAttribute("filtrerpar",computerWrapper.getFilterby());
 		request.setAttribute("rangerpar",computerWrapper.getOrder());

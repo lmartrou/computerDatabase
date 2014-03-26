@@ -7,8 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.excilys.computerDatabase.om.ComputerWrapper;
 import com.excilys.computerDatabase.service.ServiceFactory;
 
 /**
@@ -37,12 +35,9 @@ public class DeleteComputer extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		
-			ServiceFactory serviceFactory=ServiceFactory.getInstance();
-			ComputerWrapper computerWrapper = new ComputerWrapper();
+			Long id=(Long.valueOf(request.getParameter("id")));
 			
-			computerWrapper.setId(Long.valueOf(request.getParameter("id")));
-			
-			serviceFactory.deleteComputer(computerWrapper);
+			ServiceFactory.getInstance().getComputerService().deleteComputer(id);
 			  
 	        String filter=(String)request.getParameter(FIELD_FILTER);
 			String filterby=(String)request.getParameter(FIELD_FILTERBY);

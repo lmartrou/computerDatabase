@@ -18,14 +18,14 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input value="${computer.getIntroduced()}" data-validation="date" type="text" name="introducedDate"/>
+					<input value="${computer.getIntroduced()}" data-validation="date" data-validation-optional="true" type="text" name="introducedDate" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input value="${computer.getDiscontinued()}" data-validation="date" type="text" name="discontinuedDate" pattern="YY-MM-dd"/>
+					<input value="${computer.getDiscontinued()}" data-validation="date" data-validation-optional="true" type="text" name="discontinuedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>

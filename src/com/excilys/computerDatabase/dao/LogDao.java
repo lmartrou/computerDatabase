@@ -15,7 +15,8 @@ public enum LogDao {
 	public static LogDao getInstance()
 	{	return INSTANCE;
 	}
-	public void insereLog(Log log, Connection cn) throws SQLException{
+	public void insereLog(Log log) throws SQLException, ClassNotFoundException{
+		Connection cn=DaoFactory.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		if( log.getComputerId()!=null){
 		stmt = cn.prepareStatement("INSERT into log(computer_id,computer_name,operation,date) VALUES(?,?,?,NOW());");
