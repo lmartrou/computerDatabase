@@ -7,7 +7,7 @@ import java.util.List;
 import com.excilys.computerDatabase.dao.DaoFactory;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.om.Log;
-import com.excilys.computerDatabase.wrapper.ComputerWrapper;
+import com.excilys.computerDatabase.wrapper.Wrapper;
 
 public enum ComputerService {
 	INSTANCE;
@@ -20,7 +20,7 @@ public enum ComputerService {
 	}
 
 
-	public List<Computer> getListComputer(ComputerWrapper computerWrapper) {
+	public List<Computer> getListComputer(Wrapper computerWrapper) {
 		Connection cn = null;
 		List<Computer> listComputer = null;
 		Log log=new Log();
@@ -107,6 +107,8 @@ public enum ComputerService {
 			cn = DaoFactory.getInstance().getConnection();
 			cn.setAutoCommit(false);
 			DaoFactory.getInstance().getComputerDao().deleteComputer(id);
+			Computer computer=DaoFactory.getInstance().getComputerDao().getComputer(id);
+			log.setComputerName(computer.getName());
 			DaoFactory.getInstance().getLogDao().insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException e) {
@@ -212,7 +214,7 @@ public enum ComputerService {
 		}
 	}
 
-	public ComputerWrapper pagination(ComputerWrapper computerWrapper) {
+	public Wrapper pagination(Wrapper computerWrapper) {
 		// TODO Auto-generated method stub
 		Connection cn=null;
 
@@ -222,6 +224,8 @@ public enum ComputerService {
 
 			computerWrapper.setListComputer(DaoFactory.getInstance().getComputerDao().getListComputer(computerWrapper));
 			computerWrapper.setCount(DaoFactory.getInstance().getComputerDao().countComputer(computerWrapper));
+			
+		
 			computerWrapper.setNoOfPage((int) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
 			cn.commit();
 		} catch (ClassNotFoundException e) {

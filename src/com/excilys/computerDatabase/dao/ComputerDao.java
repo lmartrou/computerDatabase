@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.computerDatabase.om.*;
-import com.excilys.computerDatabase.wrapper.ComputerWrapper;
+import com.excilys.computerDatabase.wrapper.Wrapper;
 
 public enum ComputerDao {
 
@@ -26,7 +26,7 @@ public enum ComputerDao {
 	}
 
 
-	public List<Computer> getListComputer(ComputerWrapper computerWrapper) throws SQLException, ClassNotFoundException {
+	public List<Computer> getListComputer(Wrapper computerWrapper) throws SQLException, ClassNotFoundException {
 		Connection cn=DaoFactory.getInstance().getConnection();
 
 		ArrayList<Computer> listComputer  = new ArrayList<Computer>();
@@ -55,7 +55,7 @@ public enum ComputerDao {
 			.append(computerWrapper.getNumberPerPage());
 
 		}
-		stmt=cn.prepareStatement(String.valueOf(sb));
+		stmt=cn.prepareStatement(sb.toString());
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
@@ -97,7 +97,7 @@ public enum ComputerDao {
 
 
 		PreparedStatement stmt = null;
-		
+
 		stmt = cn.prepareStatement("INSERT into computer(name, introduced,discontinued,company_id) VALUES(?,?,?,?);");
 
 		stmt.setString(1,computer.getName());
@@ -189,10 +189,10 @@ public enum ComputerDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null ;
 		Computer p=new Computer();
-		
+
 		stmt = cn.prepareStatement("SELECT computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name FROM computer LEFT OUTER JOIN company ON computer.company_id=company.id WHERE(computer.id=?)");
 		stmt.setLong(1,id);
-		
+
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
@@ -201,7 +201,7 @@ public enum ComputerDao {
 					.name(rs.getString(6))
 					.build();
 
-			 p = Computer.builder()
+			p = Computer.builder()
 					.id(rs.getLong(1))
 					.name(rs.getString(2))
 
@@ -225,14 +225,20 @@ public enum ComputerDao {
 	}
 
 
-	public Long countComputer(ComputerWrapper computerWrapper) throws SQLException, ClassNotFoundException{
+	public Long countComputer(Wrapper computerWrapper) throws SQLException, ClassNotFoundException{
 		Connection cn=DaoFactory.getInstance().getConnection();
 		ResultSet rs = null ;
 		PreparedStatement stmt = null;
 		Long count = null;
 
 		if (computerWrapper.getFilter()!=""&& computerWrapper.getFilter()!=null){
-			stmt=cn.prepareStatement(new String("SELECT count(*) AS nombreComputer FROM computer LEFT OUTER JOIN company ON computer.company_id=company.id WHERE("+computerWrapper.getFilterby()+".name LIKE '%"+computerWrapper.getFilter()+"%')" ));
+			StringBuilder sb=new StringBuilder();
+			sb.append("SELECT count(*) AS nombreComputer FROM computer LEFT OUTER JOIN company ON computer.company_id=company.id WHERE(")
+			.append(computerWrapper.getFilterby())
+			.append(".name LIKE '%")
+			.append(computerWrapper.getFilter())
+			.append("%')");
+			stmt=cn.prepareStatement(sb.toString());
 		}
 		else{
 

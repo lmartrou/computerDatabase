@@ -22,6 +22,7 @@ import com.excilys.computerDatabase.mapper.Mapper;
 import com.excilys.computerDatabase.om.Company;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.service.ServiceFactory;
+import com.excilys.computerDatabase.wrapper.Wrapper;
 
 
 
@@ -49,18 +50,20 @@ public class AddComputerServlet extends javax.servlet.http.HttpServlet implement
 		ServiceFactory serviceFactory=ServiceFactory.getInstance();
 
 		List<Company> listCompany = serviceFactory.getCompanyService().getListCompany();
+		int page=1;
+		if(request.getParameter(FIELD_PAGE) != null && request.getParameter(FIELD_PAGE) != ""){
+			page =Integer.valueOf(request.getParameter(FIELD_PAGE));
+		}
+		Wrapper wrapper=Wrapper.builder()
+				.filter((String)request.getParameter(FIELD_FILTER))
+				.filterby((String)request.getParameter(FIELD_FILTERBY))
+				.order((String)request.getParameter(FIELD_ORDER))
+				.page(page)
+				.build();
 
-
-		String filter=(String)request.getParameter(FIELD_FILTER);
-		String filterby=(String)request.getParameter(FIELD_FILTERBY);
-		String order=(String)request.getParameter(FIELD_ORDER);
-		String page=(String)request.getParameter(FIELD_PAGE);
 
 		request.setAttribute("listCompany",listCompany);
-		request.setAttribute(FIELD_FILTER,filter);
-		request.setAttribute(FIELD_FILTERBY,filterby);
-		request.setAttribute(FIELD_ORDER,order);
-		request.setAttribute(FIELD_PAGE,page);
+		request.setAttribute("wrapper",wrapper);
 		request.getRequestDispatcher(VIEW_BIS).forward(request,response);      
 
 
@@ -70,11 +73,16 @@ public class AddComputerServlet extends javax.servlet.http.HttpServlet implement
 
 		ServiceFactory serviceFactory =ServiceFactory.getInstance();
 		Mapper mapper=new Mapper();
-
-		String filter=(String)request.getParameter(FIELD_FILTER);
-		String filterby=(String)request.getParameter(FIELD_FILTERBY);
-		String order=(String)request.getParameter(FIELD_ORDER);
-		String page=(String)request.getParameter(FIELD_PAGE);
+		int page=1;
+		if(request.getParameter(FIELD_PAGE) != null && request.getParameter(FIELD_PAGE) != ""){
+			page =Integer.valueOf(request.getParameter(FIELD_PAGE));
+		}
+		Wrapper wrapper=Wrapper.builder()
+				.filter((String)request.getParameter(FIELD_FILTER))
+				.filterby((String)request.getParameter(FIELD_FILTERBY))
+				.order((String)request.getParameter(FIELD_ORDER))
+				.page(page)
+				.build();
 
 
 		ComputerDto computerDto =ComputerDto.builder()
@@ -94,11 +102,7 @@ public class AddComputerServlet extends javax.servlet.http.HttpServlet implement
 
 		serviceFactory.getComputerService().insereComputer(computer); 
 
-		request.setAttribute(FIELD_FILTER,filter);
-		request.setAttribute(FIELD_FILTERBY,filterby);
-		request.setAttribute(FIELD_ORDER,order);
-		request.setAttribute(FIELD_PAGE,page);
-
+		request.setAttribute("wrapper",wrapper);
 
 		request.getRequestDispatcher(VIEW).forward(request,response);
 

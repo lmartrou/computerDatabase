@@ -15,6 +15,7 @@ import com.excilys.computerDatabase.mapper.Mapper;
 import com.excilys.computerDatabase.om.Company;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.service.ServiceFactory;
+import com.excilys.computerDatabase.wrapper.Wrapper;
 
 /**
  * Servlet implementation class EditeComputer
@@ -44,11 +45,13 @@ public class EditComputer extends HttpServlet {
 
 		Mapper mapper=new Mapper();
 		List<Company> listCompany = ServiceFactory.getInstance().getCompanyService().getListCompany();
-
-
-		String filter=(String)request.getParameter(FIELD_FILTER);
-		String filterby=(String)request.getParameter(FIELD_FILTERBY);
-		String order=(String)request.getParameter(FIELD_ORDER);
+		
+		Wrapper wrapper=Wrapper.builder()
+				.filter((String)request.getParameter(FIELD_FILTER))
+				.filterby((String)request.getParameter(FIELD_FILTERBY))
+				.order((String)request.getParameter(FIELD_ORDER))
+				.page(Integer.valueOf(request.getParameter(FIELD_PAGE)))
+				.build();
 		Long id =Long.valueOf(request.getParameter(FIELD_ID));
 
 		Computer computer=ServiceFactory.getInstance().getComputerService().getComputer(id);
@@ -57,9 +60,7 @@ public class EditComputer extends HttpServlet {
 		String page=(String)request.getParameter(FIELD_PAGE);
 
 		request.setAttribute("listCompany",listCompany);
-		request.setAttribute(FIELD_FILTER,filter);
-		request.setAttribute(FIELD_FILTERBY,filterby);
-		request.setAttribute(FIELD_ORDER,order);
+		request.setAttribute("wrapper",wrapper);
 		request.setAttribute("computer",computerDto);
 
 		request.setAttribute(FIELD_PAGE,page);
@@ -95,17 +96,20 @@ public class EditComputer extends HttpServlet {
 		}
 
 		ServiceFactory.getInstance().getComputerService().editComputer(computer);
+		int page=1;
+		if(request.getParameter(FIELD_PAGE) != null && request.getParameter(FIELD_PAGE) != ""){
+			page =Integer.valueOf(request.getParameter(FIELD_PAGE));
+		}
 
-		String filter=(String)request.getParameter(FIELD_FILTER);
-		String filterby=(String)request.getParameter(FIELD_FILTERBY);
-		String order=(String)request.getParameter(FIELD_ORDER);
-		String page=(String)request.getParameter(FIELD_PAGE);
+		Wrapper wrapper=Wrapper.builder()
+				.filter((String)request.getParameter(FIELD_FILTER))
+				.filterby((String)request.getParameter(FIELD_FILTERBY))
+				.order((String)request.getParameter(FIELD_ORDER))
+				.page(page)
+				.build();
 
 
-		request.setAttribute(FIELD_FILTER,filter);
-		request.setAttribute(FIELD_FILTERBY,filterby);
-		request.setAttribute(FIELD_ORDER,order);
-		request.setAttribute(FIELD_PAGE,page);
+		request.setAttribute("wrapper",wrapper);
 
 		request.getRequestDispatcher(VIEW).forward(request,response);
 

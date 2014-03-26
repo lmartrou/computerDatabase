@@ -5,7 +5,7 @@
 
 	<h1>Edit Computer</h1>
 	
-	<form action="EditComputer?search=${search}&filterby=${filterby}&orderby=${orderby}&page=${page}&id=${computer.getId()}" method="POST">
+	<form action="EditComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computer.getId()}" method="POST">
 		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
@@ -47,7 +47,7 @@
 		</fieldset>
 		<div class="actions">
 			<input type="submit" value="Edit" class="btn primary">
-			or <a href="getComputer?search=${search}&filterby=${filterby}&orderby=${orderby}&page=${page}" class="btn">Cancel</a>
+			or <a href="getComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}" class="btn">Cancel</a>
 		</div>
 	</form>
 </section>

@@ -4,7 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="page" %>
 
 <section id="main">
-	<h1 id="homeTitle">${count}</h1>
+	<h1 id="homeTitle">${wrapper.getCount()}</h1>
 	
 	<div id="actions">
 		<form action="getComputer" method="POST">
@@ -35,11 +35,8 @@
 		</form>
 		
 		
-		<form action="AddComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}" method="GET">
-			<input type="submit" id="addsubmit" name="addComputer"
-				value="addComputer"
-				class="btn primary"/>
-				</form>
+		<a class="btn success" id="add" href="AddComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}" >add</a>
+		
 	</div>
 
 		<table border="1" cellpadding="5" cellspacing="5">
@@ -81,11 +78,11 @@
    					</td>
    					
    					<td>
-   					<a class="btn danger" id="delete" href="DeleteComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&id=${computerDto.getId()}">Delete </a>
+   					<a class="btn danger" id="delete" href="DeleteComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}">Delete </a>
    					</td>
    					
    					<td>
-   					<a class="btn success" id="edit" href="EditComputer?search=${name}&filterby=${filtrerpar}&orderby=${rangerpar}&page=${page}&computerId=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
+   					<a class="btn success" id="edit" href="EditComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&computerId=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
    					</td>
    					
 					</tr>
