@@ -12,21 +12,22 @@ import com.excilys.computerDatabase.om.Computer;
 @Component
 public class Wrapper {
 	
-	public int getPage() {
-		return page;
-	}
-	public void setPage(int page) {
-		this.page = page;
-	}
 	private String filter,filterby,order,offset;
-	private int noOfPage,page;
+	private Long noOfPage,page;
 	private Long count,numberPerPage;
 	private List<Computer> listComputer;
+	public Long getPage() {
+		return page;
+	}
+	public void setPage(Long page) {
+		this.page = page;
+	}
+
 	
-	public int getNoOfPage() {
+	public Long getNoOfPage() {
 		return noOfPage;
 	}
-	public void setNoOfPage(int noOfPage) {
+	public void setNoOfPage(Long noOfPage) {
 		this.noOfPage = noOfPage;
 	}
 	public Long getCount() {
@@ -125,11 +126,11 @@ public class Wrapper {
 			this.wrapper.count = count;
 			return this;
 		}
-		public Builder noOfPage(int noOfPage) {
+		public Builder noOfPage(Long noOfPage) {
 			this.wrapper.noOfPage = noOfPage;
 			return this;
 		}
-		public Builder page(int page) {
+		public Builder page(Long page) {
 			this.wrapper.page = page;
 			return this;
 		}

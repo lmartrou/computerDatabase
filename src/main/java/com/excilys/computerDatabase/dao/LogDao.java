@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDatabase.om.Log;
 
-@Component
+@Repository
 public class LogDao {
 	
 	

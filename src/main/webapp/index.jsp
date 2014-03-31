@@ -1,4 +1,4 @@
 
 <%
-response.sendRedirect("/computerDatabase/DashboardServlet");
+response.sendRedirect("/computerDatabase/dashboard");
 %>

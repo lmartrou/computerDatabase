@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Service;
 
 import com.excilys.computerDatabase.dao.ComputerDao;
@@ -16,7 +16,7 @@ import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.om.Log;
 import com.excilys.computerDatabase.wrapper.Wrapper;
 
-@Component
+@Service
 public class ComputerService {
 	
 	public ComputerService() {
@@ -252,7 +252,7 @@ public class ComputerService {
 			computerWrapper.setCount(computerDao.countComputer(computerWrapper));
 			
 		
-			computerWrapper.setNoOfPage((int) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
+			computerWrapper.setNoOfPage((long) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
 			cn.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

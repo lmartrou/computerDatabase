@@ -7,7 +7,7 @@
 	<h1 id="homeTitle">${wrapper.getCount()} computers found</h1>
 	
 	<div id="actions">
-		<form action="DashboardServlet" method="POST">
+		<form action="dashboard" method="GET">
 			<input type="search" id="searchbox" name="search"
 				value="" placeholder="Search name">
 			
@@ -35,7 +35,7 @@
 		</form>
 		
 		
-		<a class="btn success" id="add" href="AddComputerServlet?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}" >add</a>
+		<a class="btn success" id="add" href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}" >add</a>
 		
 	</div>
 
@@ -78,11 +78,11 @@
    					</td>
    					
    					<td>
-   					<a class="btn danger" id="delete" href="DeleteComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}">Delete </a>
+   					<a class="btn danger" id="delete" href="deleteComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}">Delete </a>
    					</td>
    					
    					<td>
-   					<a class="btn success" id="edit" href="EditComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&computerId=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
+   					<a class="btn success" id="edit" href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
    					</td>
    					
 					</tr>

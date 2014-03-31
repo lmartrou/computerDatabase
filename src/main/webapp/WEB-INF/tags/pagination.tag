@@ -4,7 +4,7 @@
 
 <%--For displaying Previous link except for the 1st page --%>
     <c:if test="${wrapper.getPage() != 1}">
-        <td><a href="DashboardServlet?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage() - 1}">Previous</a></td>
+        <td><a href="dashboard?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage() - 1}">Previous</a></td>
     </c:if>
  
     <%--For displaying Page numbers.
@@ -17,7 +17,7 @@
                         <td>${i}</td>
                     </c:when>
                     <c:otherwise>
-                        <td><a href="DashboardServlet?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${i}">${i}</a></td>
+                        <td><a href="dashboard?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${i}">${i}</a></td>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -26,6 +26,6 @@
  
     <%--For displaying Next link --%>
     <c:if test="${wrapper.getPage() lt wrapper.getNoOfPage()}">
-        <td><a href="DashboardServlet?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage() + 1}">Next</a></td>
+        <td><a href="dashboard?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage() + 1}">Next</a></td>
     </c:if>
 			
