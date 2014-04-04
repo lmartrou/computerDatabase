@@ -4,9 +4,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,22 +22,24 @@ import com.excilys.computerDatabase.om.Company;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.service.CompanyService;
 import com.excilys.computerDatabase.service.ComputerService;
+
 import com.excilys.computerDatabase.wrapper.Wrapper;
 
 @Controller
 public class ComputerController {
-	private static final String FIELD_NAME = "name",
-			FIELD_INTRODUCED = "introducedDate",
-			FIELD_DISCONTINUED = "discontinuedDate", FIELD_COMPANY = "company",
-			FIELD_ID = "id";
+
+
+
+	private static final String FIELD_ID = "id";
+	private static final String FIELD_LCOMPANY = "listCompany",
+			FIELD_LCOMPUTER = "listComputer", FIELD_WRAPPER = "wrapper",
+			FIELD_COMPUTER = "computerDto";
 	private static final String FIELD_FILTER = "search",
 			FIELD_FILTERBY = "filterby", FIELD_ORDER = "orderby",
 			FIELD_PAGE = "page";
-	private static final String FIELD_LCOMPANY = "listCompany",
-			FIELD_LCOMPUTER = "listComputer", FIELD_WRAPPER = "wrapper",
-			FIELD_COMPUTER = "computer";
 	private ComputerService computerService;
 	private CompanyService companyService;
+	private List<Company> listCompany;
 
 	@Autowired
 	public ComputerController(ComputerService computerService,
@@ -42,23 +48,26 @@ public class ComputerController {
 		this.companyService = companyService;
 	}
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String dashbord(
-			Model model,
 
+
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public ModelAndView dashbord(
 			@RequestParam(value = FIELD_PAGE, required = false) Long page,
 			@RequestParam(value = FIELD_FILTER, required = false) String filtre,
 			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
-			@RequestParam(value = FIELD_ORDER, required = false) String order) {
+			@RequestParam(value = FIELD_ORDER, required = false) String order){
 
 		Long numberPerPage = new Long(20);
 		Mapper mapper = new Mapper();
-		if (page == null || page == 0l) {
-			page = 1l;
+		if (page == null || page== 0l) {
+			page=1l;
 		}
 
-		Wrapper wrapper = Wrapper.builder().filter(filtre).filterby(filterpar)
-				.order(order).page(page)
+		Wrapper  wrapper = Wrapper.builder()
+				.page(page)
+				.filterby(filterpar)
+				.filter(filtre)
+				.order(order)
 				.offset(String.valueOf((page - 1) * numberPerPage))
 				.numberPerPage(Long.valueOf(numberPerPage)).build();
 
@@ -70,36 +79,43 @@ public class ComputerController {
 			listComputerDto.add(mapper.toDto(listComputer.get(i)));
 		}
 
-		model.addAttribute(FIELD_LCOMPUTER, listComputerDto);
-		model.addAttribute(FIELD_WRAPPER, wrapper);
+		ModelAndView model= new ModelAndView();
+		model.addObject(FIELD_LCOMPUTER, listComputerDto);
+		model.addObject(FIELD_PAGE, page);
+		model.addObject(FIELD_FILTER, filtre);
+		model.addObject(FIELD_FILTERBY, filterpar);
+		model.addObject(FIELD_ORDER,order);
+		model.addObject(FIELD_WRAPPER,wrapper);
 
-		return "dashboard";
+		model.setViewName("dashboard");
+		return model ;
+
 
 	}
 
 	@RequestMapping(value = "/getCompany", method = RequestMethod.GET)
-	public String getCompany(
-			Model model,
-
+	public ModelAndView getCompany(
 			@RequestParam(value = FIELD_PAGE, required = false) Long page,
 			@RequestParam(value = FIELD_FILTER, required = false) String filtre,
 			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
 			@RequestParam(value = FIELD_ORDER, required = false) String order,
 			@RequestParam(value = FIELD_ID, required = false) Long id) {
 
-		Long numberPerPage = new Long(20);
+		Mapper mapper = new Mapper();
+
 		if (page == null || page == 0l) {
 			page = 1l;
 		}
-		Mapper mapper = new Mapper();
-		Wrapper wrapper = Wrapper.builder().filter(filtre).filterby(filterpar)
-				.order(order).page(page)
-				.offset(String.valueOf((page - 1) * numberPerPage))
-				.numberPerPage(Long.valueOf(numberPerPage)).build();
 
-		List<Company> listCompany = companyService.getListCompany();
+		Wrapper wrapper = Wrapper.builder()
+				.filter(filtre)
+				.filterby(filterpar)
+				.order(order).page(page)
+				.build();
+
+		listCompany = companyService.getListCompany();
 		String VIEW = null;
-		ComputerDto computerDto = null;
+		ComputerDto computerDto = new ComputerDto();
 		if (id != null) {
 			Computer computer = computerService.getComputer(id);
 			computerDto = mapper.toDto(computer);
@@ -108,32 +124,31 @@ public class ComputerController {
 			VIEW = "addComputer";
 		}
 
-		model.addAttribute(FIELD_COMPUTER, computerDto);
-		model.addAttribute(FIELD_LCOMPANY, listCompany);
-		model.addAttribute(FIELD_WRAPPER, wrapper);
 
-		return VIEW;
+
+		ModelAndView model= new ModelAndView();
+
+		model.addObject(FIELD_COMPUTER, computerDto);
+		model.addObject(FIELD_LCOMPANY, listCompany);
+		model.addObject(FIELD_WRAPPER, wrapper);
+		model.setViewName(VIEW);
+		return model ;
+
+
 
 	}
 
 	@RequestMapping(value = "/addComputer", method = RequestMethod.POST)
-	public String addComputer(
-			Model model,
+	public ModelAndView addComputer(
+			@ModelAttribute(FIELD_COMPUTER) @Valid ComputerDto computerDto,
+			BindingResult result) {
 
-			@RequestParam(value = FIELD_NAME, required = false) String pComputerName,
-			@RequestParam(value = FIELD_INTRODUCED, required = false) String pComputerIntroduced,
-			@RequestParam(value = FIELD_DISCONTINUED, required = false) String pComputerDiscontinued,
-			@RequestParam(value = FIELD_COMPANY, required = false) Long pCompanyId,
-			@RequestParam(value = FIELD_PAGE, required = false) Long page,
-			@RequestParam(value = FIELD_FILTER, required = false) String filtre,
-			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
-			@RequestParam(value = FIELD_ORDER, required = false) String order) {
 
+		ModelAndView model= new ModelAndView();
+		model.setViewName("addComputer");
+
+		if (!result.hasErrors()) {
 		Mapper mapper = new Mapper();
-
-		ComputerDto computerDto = ComputerDto.builder().name(pComputerName)
-				.company(pCompanyId).introduced(pComputerIntroduced)
-				.discontinued(pComputerDiscontinued).build();
 
 		Computer computer = null;
 		try {
@@ -142,79 +157,67 @@ public class ComputerController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+			computerService.insereComputer(computer);
+			model.setViewName("redirect:/dashboard");
+		}
 
-		computerService.insereComputer(computer);
+		model.addObject(FIELD_COMPUTER, computerDto);
+		model.addObject(FIELD_LCOMPANY,listCompany);
 
-		model.addAttribute(FIELD_PAGE, page);
-		model.addAttribute(FIELD_FILTER, filtre);
-		model.addAttribute(FIELD_FILTERBY, filterpar);
-		model.addAttribute(FIELD_ORDER,order);
+		return model ;
 
-
-		return "redirect:/dashboard";
 
 	}
 
 	@RequestMapping(value = "/deleteComputer", method = RequestMethod.GET)
-	public String deleteComputer(
-			Model model,
-
+	public ModelAndView deleteComputer(
 			@RequestParam(value = FIELD_PAGE, required = false) Long page,
 			@RequestParam(value = FIELD_FILTER, required = false) String filtre,
 			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
 			@RequestParam(value = FIELD_ORDER, required = false) String order,
+
 			@RequestParam(value = FIELD_ID, required = false) Long id) {
 
 		computerService.deleteComputer(id);
 
-		
-		model.addAttribute(FIELD_PAGE, page);
-		model.addAttribute(FIELD_FILTER, filtre);
-		model.addAttribute(FIELD_FILTERBY, filterpar);
-		model.addAttribute(FIELD_ORDER,order);
-
-		return "redirect:/dashboard";
-
-	}
-
-	@RequestMapping(value = "/editComputer", method = RequestMethod.POST)
-	protected ModelAndView editComputer(
-		
-			@RequestParam(value = FIELD_PAGE, required = false) Long page,
-			@RequestParam(value = FIELD_FILTER, required = false) String filtre,
-			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
-			@RequestParam(value = FIELD_ORDER, required = false) String order,
-			@RequestParam(value = FIELD_ID, required = false) Long id,
-			@RequestParam(value = FIELD_NAME, required = false) String pComputerName,
-			@RequestParam(value = FIELD_INTRODUCED, required = false) String pComputerIntroduced,
-			@RequestParam(value = FIELD_DISCONTINUED, required = false) String pComputerDiscontinued,
-			@RequestParam(value = FIELD_COMPANY, required = false) Long pCompanyId) {
-
-		Mapper mapper = new Mapper();
-
-		ComputerDto computerDto = ComputerDto.builder().id(id)
-				.name(pComputerName).company(pCompanyId)
-				.introduced(pComputerIntroduced)
-				.discontinued(pComputerDiscontinued).build();
-
-		Computer computer = null;
-		try {
-			computer = mapper.fromDto(computerDto);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		computerService.editComputer(computer);
-ModelAndView model= new ModelAndView();
-model.setViewName("redirect:dashboard");
+		ModelAndView model= new ModelAndView();
+		model.setViewName("redirect:/dashboard");
 		model.addObject(FIELD_PAGE, page);
 		model.addObject(FIELD_FILTER, filtre);
 		model.addObject(FIELD_FILTERBY, filterpar);
 		model.addObject(FIELD_ORDER,order);
-
 		return model;
 
 	}
 
+	@RequestMapping(value = "/editComputer", method = RequestMethod.POST)
+	protected ModelAndView editComputer(@ModelAttribute("computerDto") @Valid ComputerDto computerDto,	
+			BindingResult result) {
+
+		Mapper mapper = new Mapper();
+
+
+		ModelAndView model= new ModelAndView();
+
+		if (!result.hasErrors()) {
+
+			Computer computer = null;
+			try {
+				computer = mapper.fromDto(computerDto);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			computerService.editComputer(computer);
+			model.setViewName("redirect:/dashboard");
+		
+		}
+		model.addObject(FIELD_COMPUTER, computerDto);
+		model.addObject(FIELD_LCOMPANY,listCompany);
+
+		return model;
+
+
+
+	}
 }

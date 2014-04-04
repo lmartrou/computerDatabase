@@ -2,8 +2,9 @@ package com.excilys.computerDatabase.mapper;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerDatabase.Dto.ComputerDto;
@@ -12,7 +13,8 @@ import com.excilys.computerDatabase.om.*;
 @Component
 public class Mapper {
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+	
 	
 	public Mapper(){}
 
@@ -33,11 +35,11 @@ public class Mapper {
 		}
 
 		if(dto.getIntroduced() != null && !dto.getIntroduced().isEmpty()){
-			cb.introduced(dateFormat.parse(dto.getIntroduced()));
+			cb.introduced(formatter.parseDateTime(dto.getIntroduced()));
 		}
 
 		if(dto.getDiscontinued() != null && !dto.getDiscontinued().isEmpty()){
-			cb.discontinued(dateFormat.parse(dto.getDiscontinued()));
+			cb.discontinued(formatter.parseDateTime(dto.getDiscontinued()));
 		}
 		return cb.build();
 	}
@@ -52,10 +54,10 @@ public class Mapper {
 		cdtob.id(obj.getId()).name(obj.getName());
 
 		if(obj.getIntroduced() != null)
-			cdtob.introduced(obj.getIntroduced().toString());
+			cdtob.introduced(obj.getIntroduced().toString().substring(0,10));
 
 		if(obj.getDiscontinued() != null)
-			cdtob.discontinued(obj.getDiscontinued().toString());
+			cdtob.discontinued(obj.getDiscontinued().toString().substring(0, 10));
 
 		if(obj.getCompany() != null)
 			cdtob.company(obj.getCompany().getId());

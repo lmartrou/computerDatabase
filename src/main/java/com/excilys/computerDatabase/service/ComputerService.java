@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.excilys.computerDatabase.dao.ComputerDao;
@@ -32,6 +31,7 @@ public class ComputerService {
 	private LogDao logDao;
 	
 	
+	
 	public List<Computer> getListComputer(Wrapper computerWrapper) {
 		Connection cn = null;
 		List<Computer> listComputer = null;
@@ -42,6 +42,7 @@ public class ComputerService {
 		
 			cn = cm.getConnection();
 			cn.setAutoCommit(false);
+	
 			listComputer = computerDao.getListComputer(computerWrapper);
 			logDao.insereLog(log);
 			cn.commit();
@@ -71,15 +72,17 @@ public class ComputerService {
 	public void insereComputer(Computer computer) {
 		Connection cn = null;
 		Log log=new Log();
-		log.setOperation("insereComputer");
-		log.setComputerId(computer.getId());
-	    log.setComputerName(computer.getName());
+
 	    
 
 		try {
 			cn = cm.getConnection();
 			cn.setAutoCommit(false);
-			computerDao.insereComputer(computer);
+			
+			computerDao.insereComputer(computer);		
+			log.setOperation("insereComputer");
+		log.setComputerId(computer.getId());
+	    log.setComputerName(computer.getName());
 			logDao.insereLog(log);
 			cn.commit();
 		} catch (ClassNotFoundException e) {

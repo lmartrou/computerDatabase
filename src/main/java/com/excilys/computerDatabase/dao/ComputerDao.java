@@ -8,8 +8,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDatabase.om.Company;
@@ -19,12 +19,12 @@ import com.excilys.computerDatabase.wrapper.Wrapper;
 @Repository
 public class ComputerDao {
 
-	
+
 	public ComputerDao()
 	{}
 
-@Autowired
-private ConnectionManager cm;
+	@Autowired
+	private ConnectionManager cm;
 
 	/** Point d'accès pour l'instance unique du singleton */
 
@@ -72,11 +72,15 @@ private ConnectionManager cm;
 			Computer p = Computer.builder()
 					.id(rs.getLong(1))
 					.name(rs.getString(2))
-
-					.introduced(rs.getDate(3))
-					.discontinued(rs.getDate(4))
 					.company(company)
 					.build();
+			if(rs.getDate(3)!=null){
+				p.setIntroduced(new DateTime(rs.getDate(3)));
+			}
+			if(rs.getDate(4)!=null){
+				p.setDiscontinued(new DateTime(rs.getDate(4)));
+			}
+
 
 			listComputer.add(p);	
 
@@ -107,12 +111,12 @@ private ConnectionManager cm;
 		stmt.setString(1,computer.getName());
 
 		if(computer.getIntroduced()!=null){
-			stmt.setDate(2,new java.sql.Date(computer.getIntroduced().getTime()));
+			stmt.setDate(2,new java.sql.Date(computer.getIntroduced().getMillis()));
 		}else{
 			stmt.setString(2,null);
 		}
 		if(computer.getDiscontinued()!=null){
-			stmt.setDate(3,new java.sql.Date(computer.getDiscontinued().getTime()));
+			stmt.setDate(3,new java.sql.Date(computer.getDiscontinued().getMillis()));
 		}else{
 			stmt.setString(3,null);
 		}
@@ -156,14 +160,14 @@ private ConnectionManager cm;
 		stmt.setString(1,computer.getName());
 
 		if(computer.getIntroduced()!=null){
-			stmt.setDate(2,new java.sql.Date(computer.getIntroduced().getTime()));
+			stmt.setDate(2,new java.sql.Date(computer.getIntroduced().getMillis()));
 		}else{
-			stmt.setString(2,"");
+			stmt.setString(2,null);
 		}
 		if(computer.getDiscontinued()!=null){
-			stmt.setDate(3,new java.sql.Date(computer.getDiscontinued().getTime()));
+			stmt.setDate(3,new java.sql.Date(computer.getDiscontinued().getMillis()));
 		}else{
-			stmt.setString(3,"");
+			stmt.setString(3,null);
 		}
 
 		if(computer.getCompany()!=null && computer.getCompany().getId()!=null){
@@ -207,11 +211,14 @@ private ConnectionManager cm;
 			p = Computer.builder()
 					.id(rs.getLong(1))
 					.name(rs.getString(2))
-
-					.introduced(rs.getDate(3))
-					.discontinued(rs.getDate(4))
 					.company(company)
 					.build();
+			if(rs.getDate(3)!=null){
+				p.setIntroduced(new DateTime(rs.getDate(3)));
+			}
+			if(rs.getDate(4)!=null){
+				p.setDiscontinued(new DateTime(rs.getDate(4)));
+			}
 		}
 
 		if (rs != null){
