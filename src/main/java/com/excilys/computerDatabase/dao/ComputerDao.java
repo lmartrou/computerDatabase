@@ -15,24 +15,27 @@ import org.springframework.stereotype.Repository;
 import com.excilys.computerDatabase.om.Company;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.wrapper.Wrapper;
-
+import com.jolbox.bonecp.BoneCPDataSource;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 @Repository
 public class ComputerDao {
-
+	
+@Autowired
+	private BoneCPDataSource ds;
 
 	public ComputerDao()
 	{}
 
-	@Autowired
-	private ConnectionManager cm;
+
 
 	/** Point d'accès pour l'instance unique du singleton */
 
 
 
 	public List<Computer> getListComputer(Wrapper computerWrapper) throws SQLException, ClassNotFoundException {
-		Connection cn=cm.getConnection();
+		 
 
+		   Connection cn = DataSourceUtils.getConnection(ds);
 		ArrayList<Computer> listComputer  = new ArrayList<Computer>();
 		ResultSet rs = null ;
 		PreparedStatement stmt = null;
@@ -101,7 +104,7 @@ public class ComputerDao {
 
 
 	public void insereComputer(Computer computer) throws SQLException, ParseException, ClassNotFoundException {
-		Connection cn=cm.getConnection(); 
+		Connection cn=DataSourceUtils.getConnection(ds);
 
 
 		PreparedStatement stmt = null;
@@ -134,7 +137,7 @@ public class ComputerDao {
 
 	public void deleteComputer(Long id) throws SQLException, ClassNotFoundException{
 
-		Connection cn=cm.getConnection(); 
+		Connection cn=DataSourceUtils.getConnection(ds);
 
 		PreparedStatement stmt = null;
 
@@ -152,7 +155,7 @@ public class ComputerDao {
 
 	public void editComputer(Computer computer) throws SQLException, ParseException, ClassNotFoundException{
 
-		Connection cn=cm.getConnection();
+		Connection cn=DataSourceUtils.getConnection(ds);
 		PreparedStatement stmt = null;
 
 		stmt = cn.prepareStatement("UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=?  WHERE id=?");
@@ -190,7 +193,7 @@ public class ComputerDao {
 	}
 
 	public Computer getComputer(Long id) throws SQLException, ClassNotFoundException{
-		Connection cn=cm.getConnection(); 
+		Connection cn=DataSourceUtils.getConnection(ds);
 
 
 		PreparedStatement stmt = null;
@@ -236,7 +239,7 @@ public class ComputerDao {
 
 
 	public Long countComputer(Wrapper computerWrapper) throws SQLException, ClassNotFoundException{
-		Connection cn=cm.getConnection();
+		Connection cn=DataSourceUtils.getConnection(ds);
 		ResultSet rs = null ;
 		PreparedStatement stmt = null;
 		Long count = null;

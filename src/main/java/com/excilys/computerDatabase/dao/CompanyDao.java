@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDatabase.om.Company;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 @Repository
 public class CompanyDao {
@@ -21,11 +23,11 @@ public class CompanyDao {
 	{}
 	
 	@Autowired
-	private ConnectionManager cm;
+	private BoneCPDataSource ds;
 	/** Point d'accès pour l'instance unique du singleton */
 	
 	public List<Company> getListCompany() throws SQLException, ClassNotFoundException {
-		Connection cn=cm.getConnection();
+		Connection cn=DataSourceUtils.getConnection(ds);
 		
 		ArrayList<Company> listeCompany  = new ArrayList<Company>();
 		ResultSet rs = null ;
@@ -57,7 +59,7 @@ public class CompanyDao {
 
 	public void insereCompany(Company company) throws SQLException, ClassNotFoundException {
 		
-		Connection cn=cm.getConnection();
+		Connection cn=DataSourceUtils.getConnection(ds);
 		PreparedStatement stmt = null;
 
 			stmt = cn.prepareStatement("INSERT into Company(id, name) VALUES(?,?,?,?,?);");

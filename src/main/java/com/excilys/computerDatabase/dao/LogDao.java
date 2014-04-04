@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDatabase.om.Log;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 @Repository
 public class LogDao {
@@ -17,10 +18,10 @@ public class LogDao {
 	public LogDao(){}
 	
 	@Autowired
-	private ConnectionManager cm;
+	private BoneCPDataSource ds;
 	
 	public void insereLog(Log log) throws SQLException, ClassNotFoundException{
-		Connection cn=cm.getConnection();
+		Connection cn=DataSourceUtils.getConnection(ds);
 		PreparedStatement stmt = null;
 		if( log.getComputerId()!=null){
 		stmt = cn.prepareStatement("INSERT into log(computer_id,computer_name,operation,date) VALUES(?,?,?,NOW());");

@@ -1,15 +1,15 @@
 package com.excilys.computerDatabase.service;
 
-import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.computerDatabase.dao.ComputerDao;
-import com.excilys.computerDatabase.dao.ConnectionManager;
 import com.excilys.computerDatabase.dao.LogDao;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.om.Log;
@@ -21,8 +21,7 @@ public class ComputerService {
 	public ComputerService() {
 	}
 
-	@Autowired
-	private ConnectionManager cm;
+
 	
 	@Autowired
 	private ComputerDao computerDao;
@@ -31,255 +30,160 @@ public class ComputerService {
 	private LogDao logDao;
 	
 	
-	
+	@Transactional(readOnly = false)
 	public List<Computer> getListComputer(Wrapper computerWrapper) {
-		Connection cn = null;
+
 		List<Computer> listComputer = null;
 		Log log=new Log();
 		log.setOperation("getListComputer");
 
 		try {
 		
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
-	
+		
 			listComputer = computerDao.getListComputer(computerWrapper);
 			logDao.insereLog(log);
-			cn.commit();
+			
 		}  catch (ClassNotFoundException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		}catch(SQLException e) {
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-			cm.closeConnection();
-
+			
 		}
 		return listComputer;
 	}
-
+	
+	@Transactional(readOnly = false)
 	public void insereComputer(Computer computer) {
-		Connection cn = null;
+		
 		Log log=new Log();
 
 	    
 
 		try {
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
+			
 			
 			computerDao.insereComputer(computer);		
 			log.setOperation("insereComputer");
 		log.setComputerId(computer.getId());
 	    log.setComputerName(computer.getName());
 			logDao.insereLog(log);
-			cn.commit();
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-		cm.closeConnection();
-			
 		}
 
 	}
-
+	@Transactional(readOnly = false)
 	public void deleteComputer(Long id) {
-		Connection cn = null;
+		
 		Log log=new Log();
 		log.setOperation("deleteComputer");
 		log.setComputerId(id);
 		try {
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
+			
 			Computer computer=computerDao.getComputer(id);
 		computerDao.deleteComputer(id);
 			
 			log.setComputerName(computer.getName());
 			logDao.insereLog(log);
-			cn.commit();
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
-			cm.closeConnection();
+			
+		
 		}
 	}
 
-
+	@Transactional(readOnly = false)
 	public Computer getComputer(Long id){
-		Connection cn = null;
+		
 		Computer computer = null;
 		Log log=new Log();
 		log.setOperation("getComputer");
 
 		try {
 		
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
+			
 			computer = computerDao.getComputer(id);
 			log.setComputerId(id);
 			log.setComputerName(computer.getName());
 			logDao.insereLog(log);
-			cn.commit();
+			
 		} catch (ClassNotFoundException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		}catch(SQLException e) {
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-		} finally {
-			cm.closeConnection();
+			
 
 		}
 		return computer;
 	
 	}
-
+	@Transactional(readOnly = false)
 	public void editComputer(Computer computer) {
-		Connection cn = null;
+		
 		Log log=new Log();
 		log.setOperation("editComputer");
 		log.setComputerId(computer.getId());
 	    log.setComputerName(computer.getName());
 		try {
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
+			
 			computerDao.editComputer(computer);
 			logDao.insereLog(log);
-			cn.commit();
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} finally {
 			
-					cm.closeConnection();
 	
 		}
 	}
-
+	@Transactional(readOnly = false)
 	public Wrapper pagination(Wrapper computerWrapper) {
 		// TODO Auto-generated method stub
-		Connection cn=null;
-
+		
 		try {
-			cn = cm.getConnection();
-			cn.setAutoCommit(false);
+			
 
 			computerWrapper.setListComputer(computerDao.getListComputer(computerWrapper));
 			computerWrapper.setCount(computerDao.countComputer(computerWrapper));
 			
 		
 			computerWrapper.setNoOfPage((long) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
-			cn.commit();
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}finally{
-
-			cm.closeConnection();
-
+			
 		}
 		return computerWrapper;
 	}
