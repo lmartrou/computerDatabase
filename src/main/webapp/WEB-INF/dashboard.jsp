@@ -2,14 +2,18 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="page"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <section id="main">
-	<h1 id="homeTitle">${wrapper.getCount()} computers found</h1>
+Language : <a href="?lang=en">English</a>|<a href="?lang=fr">Français</a>
+
+	<h1 id="homeTitle">${wrapper.getCount()} <spring:message code="page.title.dashboard" text="default text" /></h1>
 
 	<div id="actions">
 		<form action="dashboard" method="GET">
 			<input type="search" id="searchbox" name="search"
-				value="${wrapper.getFilter()}" placeholder="Search name"> <select
+				value="${wrapper.getFilter()}" placeholder="Search name">
+				 <select
 				name="filterby">
 
 				<option value="${wrapper.getFilterby()}">${wrapper.getFilterby()}</option>
@@ -19,19 +23,19 @@
 			</select> <select name="orderby">
 			
  				<option value="${wrapper.getOrder()}">${wrapper.getOrder()}</option>
-				<option value="computer.id">identity</option>
-				<option value="computer.name">name</option>
-				<option value="computer.introduced">introduced</option>
-				<option value="computer.discontinued">discontinued</option>
-				<option value="computer.company_id">company</option>
-			</select> <input type="submit" id="searchsubmit" value="Filter by name"
+				<option value="computer.id"><spring:message code="label.id" text="default text" /></option>
+				<option value="computer.name"><spring:message code="label.name" text="default text" /></option>
+				<option value="computer.introduced"><spring:message code="label.introduced" text="default text" /></option>
+				<option value="computer.discontinued"><spring:message code="label.discontinued" text="default text" /></option>
+				<option value="computer.company_id"><spring:message code="label.company" text="default text" /></option>
+			</select> <input type="submit" id="searchsubmit" value="<spring:message code="button.filter.title" text="default text" />"
 				class="btn primary">
 
 		</form>
 
 
 		<a class="btn success" id="add"
-			href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}">add</a>
+			href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}"><spring:message code="button.add.title" text="default text" /></a>
 
 	</div>
 
@@ -64,11 +68,11 @@
 				<td><c:out value="${computerDto.getCompanyName()}" /></td>
 
 				<td><a class="btn danger" id="delete"
-					href="deleteComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}">Delete
+					href="deleteComputer?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}"><spring:message code="button.delete.title" text="default text" />
 				</a></td>
 
 				<td><a class="btn success" id="edit"
-					href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}">Edit</a>
+					href="getCompany?search=${wrapper.getFilter()}&filterby=${wrapper.getFilterby()}&orderby=${wrapper.getOrder()}&page=${wrapper.getPage()}&id=${computerDto.getId()}&computerName=${computerDto.getName()}&computerIntroduced=${computerDto.getIntroduced()}&computerDiscontinued=${computerDto.getDiscontinued()}&companyName=${computerDto.getCompanyName()}&computerCompany=${computerDto.getCompany()}"><spring:message code="button.edit.title" text="default text" /></a>
 				</td>
 
 			</tr>
