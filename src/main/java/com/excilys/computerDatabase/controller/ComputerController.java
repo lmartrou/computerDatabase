@@ -8,8 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +22,6 @@ import com.excilys.computerDatabase.om.Company;
 import com.excilys.computerDatabase.om.Computer;
 import com.excilys.computerDatabase.service.CompanyService;
 import com.excilys.computerDatabase.service.ComputerService;
-
 import com.excilys.computerDatabase.wrapper.Wrapper;
 
 @Controller
@@ -219,5 +218,14 @@ public class ComputerController {
 
 
 
+	}
+	
+	@RequestMapping(value="/error", method=RequestMethod.GET)
+	protected ModelAndView error(){
+		ModelAndView model= new ModelAndView();
+		model.setViewName("error");
+		return model;	
+	
+			
 	}
 }
