@@ -1,12 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>computerDatabase</groupId>
-	<artifactId>computerDatabase</artifactId>
+
+	<groupId>com.excilys</groupId>
+	<artifactId>computerDatabase_multimode</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
+
+	<name>computerDatabase_multimode</name>
+	<url>http://maven.apache.org</url>
 
 	<properties>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<guava.version>13.0</guava.version>
@@ -21,7 +26,7 @@
 		<hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
 		<joda-time.version>2.3</joda-time.version>
 	</properties>
-
+<dependencyManagement>
 	<dependencies>
 
 		<dependency>
@@ -67,8 +72,8 @@
 			<version>${jstl.version}</version>
 		</dependency>
 
-	
-		
+
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -90,24 +95,24 @@
 		</dependency>
 
 
-         <dependency>
+		<dependency>
 
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-tx</artifactId>
-        <version>${spring-framework.version}</version>
-            <scope>compile</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-framework.version}</version>
+			<scope>compile</scope>
 
-        </dependency>
+		</dependency>
 
-        <dependency>
+		<dependency>
 
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring-framework.version}</version>
-            <scope>compile</scope>
-            
-            </dependency>
-            
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-framework.version}</version>
+			<scope>compile</scope>
+
+		</dependency>
+
 
 
 		<dependency>
@@ -129,6 +134,17 @@
 		</dependency>
 
 	</dependencies>
+	</dependencyManagement>
+	
+	<modules>
+		<module>binding</module>
+		<module>core</module>
+		<module>persistence</module>
+		<module>webapp</module>
+		<module>service</module>
+	</modules>
+
+
 
 	<build>
 		<plugins>
@@ -146,6 +162,3 @@
 	</build>
 
 </project>
-
-
-            
