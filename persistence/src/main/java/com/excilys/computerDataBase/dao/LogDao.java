@@ -1,11 +1,10 @@
 package com.excilys.computerDataBase.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDataBase.om.Log;
@@ -20,25 +19,26 @@ public class LogDao {
 	@Autowired
 	private BoneCPDataSource ds;
 	
-	public void insereLog(Log log) throws SQLException, ClassNotFoundException{
-		Connection cn=DataSourceUtils.getConnection(ds);
-		PreparedStatement stmt = null;
+	private JdbcTemplate jt;
+	
+	public void insereLog(Log log){
+		jt=new JdbcTemplate(ds);
+		
 		if( log.getComputerId()!=null){
-		stmt = cn.prepareStatement("INSERT into log(computer_id,computer_name,operation,date) VALUES(?,?,?,NOW());");
-		stmt.setLong(1,log.getComputerId());
-		stmt.setString(2,log.getComputerName());
-		stmt.setString(3,log.getOperation());
+			Object[] params = new Object[3];
+			params[0]=log.getComputerId();
+			params[1]=log.getComputerName();
+			params[2]=log.getOperation();
+		jt.update("INSERT into log(computer_id,computer_name,operation,date) VALUES(?,?,?,NOW());",params);
+		
 		}
 		else{
-			stmt = cn.prepareStatement("INSERT into log(operation,date) VALUES(?,NOW());");
-			stmt.setString(1,log.getOperation());
+			Object[] params = new Object[1];
+			params[0]=log.getOperation();
+			jt.update("INSERT into log(operation,date) VALUES(?,NOW());",params);
+			
 		}
-		stmt.executeUpdate();
-
-			if (stmt != null){
-
-				stmt.close();
-			}
+		
 		
 	}
 
