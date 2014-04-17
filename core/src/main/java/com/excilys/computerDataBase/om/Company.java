@@ -1,13 +1,24 @@
 package com.excilys.computerDataBase.om;
 
-import org.springframework.stereotype.Component;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-@Component
+import javax.persistence.GeneratedValue;
+
+import javax.persistence.Id;
+
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Company")
 public class Company {
-	private Long id;
+	@Id
+	@GeneratedValue
+	@Column(name="id")
+	private long id;
+	@Column(name="name")
 	private String name;
-
 	public Long getId() {
 		return id;
 	}
@@ -57,11 +68,11 @@ public class Company {
 
 	}
 
-		public static Builder builder() {
-			return new Builder();
-		}
+	public static Builder builder() {
+		return new Builder();
+	}
 
 
-	
+
 
 }

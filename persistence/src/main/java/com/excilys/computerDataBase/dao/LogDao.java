@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDataBase.om.Log;
-import com.jolbox.bonecp.BoneCPDataSource;
+
 
 @Repository
 public class LogDao {
@@ -16,13 +16,12 @@ public class LogDao {
 	
 	public LogDao(){}
 	
-	@Autowired
-	private BoneCPDataSource ds;
 	
+	@Autowired
 	private JdbcTemplate jt;
 	
 	public void insereLog(Log log){
-		jt=new JdbcTemplate(ds);
+	
 		
 		if( log.getComputerId()!=null){
 			Object[] params = new Object[3];

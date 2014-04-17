@@ -1,13 +1,28 @@
 package com.excilys.computerDataBase.om;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-@Component
+import javax.persistence.GeneratedValue;
+
+import javax.persistence.Id;
+
+import javax.persistence.Table;
+
+@Entity
+@Table(name="log")
 public class Log {
-
+	@Id
+	@GeneratedValue
+	@Column(name="id")
+	private Long id;
+	@Column(name="computer_id")
 	private Long computerId;
+	@Column(name="computer_name")
 	private String computerName;
+	@Column(name="operation")
 	private String operation;
+	
 	public Long getComputerId() {
 		return computerId;
 	}

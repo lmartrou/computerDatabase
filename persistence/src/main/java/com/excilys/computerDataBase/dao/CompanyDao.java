@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDataBase.om.Company;
-import com.jolbox.bonecp.BoneCPDataSource;
+
 
 @Repository
 public class CompanyDao {
@@ -24,16 +24,13 @@ public class CompanyDao {
 	public CompanyDao()
 	{}
 	
-	@Autowired
-	private BoneCPDataSource ds;
-	/** Point d'accès pour l'instance unique du singleton */
 	
+	/** Point d'accès pour l'instance unique du singleton */
+	@Autowired
 	private JdbcTemplate jt;
 	
 	
 	public List<Company> getListCompany() {
-		
-		jt= new JdbcTemplate(ds);
 		
 		List<Company> listeCompany  = new ArrayList<Company>();
 		listeCompany=jt.query("SELECT id, name FROM company", new RowMapper<Company>(){

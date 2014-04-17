@@ -9,10 +9,10 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 
 <import resource="dispatcher-servlet.xml"/>
 
-<context:component-scan base-package="com.excilys.computerDataBase.dao" />
-<context:component-scan base-package="com.excilys.computerDataBase.service" />
+<context:component-scan base-package="com.excilys.computerDataBase.controller" />
 
-<import resource="classpath:service-context.xml"/>
+
+<import resource="classpath:binding-context.xml"/>
 
 
 
