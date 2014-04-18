@@ -105,10 +105,10 @@ public class ComputerService {
 	public Wrapper pagination(Wrapper computerWrapper) {
 		// TODO Auto-generated method stub
 	
+				computerWrapper.setCount(computerDao.countComputer(computerWrapper));
 			
 			computerWrapper.setListComputer(computerDao.getListComputer(computerWrapper));
-			computerWrapper.setCount(computerDao.countComputer(computerWrapper));
-			
+		
 		
 			computerWrapper.setNoOfPage((long) Math.ceil(computerWrapper.getCount() * 1.0 / computerWrapper.getNumberPerPage()));
 

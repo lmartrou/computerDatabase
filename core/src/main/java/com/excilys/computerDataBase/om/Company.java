@@ -3,18 +3,16 @@ package com.excilys.computerDataBase.om;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Company")
+@Table(name="company")
 public class Company {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
 	private long id;
 	@Column(name="name")

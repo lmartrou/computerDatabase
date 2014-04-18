@@ -60,10 +60,10 @@ public class Mapper {
 		if(obj.getDiscontinued() != null)
 			cdtob.discontinued(obj.getDiscontinued().toString().substring(0, 10));
 
-		if(obj.getCompany() != null)
+		if(obj.getCompany() != null){
 			cdtob.company(obj.getCompany().getId());
 			cdtob.companyName(obj.getCompany().getName());
-
+		}
 		return cdtob.build();
 
 	}

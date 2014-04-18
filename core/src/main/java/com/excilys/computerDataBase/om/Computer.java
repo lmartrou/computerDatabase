@@ -1,94 +1,83 @@
 package com.excilys.computerDataBase.om;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
-
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="computer")
+@Table(name = "computer")
 public class Computer {
 
 	@Id
-@GeneratedValue
-@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Long id;
-@Column(name="name")
+	@Column(name = "name")
 	private String name;
-@Column(name="introduced")
+	@Column(name = "introduced")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime introduced;
-@Column(name="discontinued")
+	@Column(name = "discontinued")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime discontinued;
 
-@ManyToOne
-@JoinColumn(name="company_id")
+	@ManyToOne
+	@JoinColumn(name = "company_id")
 	private Company company;
-
 
 	public Computer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
 	public DateTime getIntroduced() {
 		return introduced;
 	}
-
 
 	public void setIntroduced(DateTime introduced) {
 		this.introduced = introduced;
 	}
 
-
 	public DateTime getDiscontinued() {
 		return discontinued;
 	}
-
 
 	public void setDiscontinued(DateTime discontinued) {
 		this.discontinued = discontinued;
 	}
 
-
 	public Company getCompany() {
 		return company;
 	}
-
 
 	public void setCompany(Company company) {
 		this.company = company;
 
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -97,7 +86,6 @@ public class Computer {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -116,13 +104,11 @@ public class Computer {
 		return true;
 	}
 
-
 	public String toString() {
 		return "Computeur [id=" + id + ", name=" + name + ", introduced="
 				+ introduced + ", discontinued=" + discontinued + ", company="
 				+ company + "]";
 	}
-
 
 	/*
 	 * Builder
@@ -136,7 +122,7 @@ public class Computer {
 		}
 
 		public Builder id(Long id) {
-			if(id != null)
+			if (id != null)
 				this.computer.id = id;
 			return this;
 		}
@@ -171,8 +157,4 @@ public class Computer {
 		return new Builder();
 	}
 
-
-	
-
 }
-
