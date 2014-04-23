@@ -23,11 +23,10 @@ Language : <a href="?lang=en">English</a>|<a href="?lang=fr">Français</a>
 			</select> <select name="orderby">
 			
  				<option value="${wrapper.getOrder()}">${wrapper.getOrder()}</option>
-				<option value="computer.id"><spring:message code="label.id" text="default text" /></option>
-				<option value="computer.name"><spring:message code="label.name" text="default text" /></option>
-				<option value="computer.introduced"><spring:message code="label.introduced" text="default text" /></option>
-				<option value="computer.discontinued"><spring:message code="label.discontinued" text="default text" /></option>
-				<option value="computer.company_id"><spring:message code="label.company" text="default text" /></option>
+				<option value="name"><spring:message code="label.name" text="default text" /></option>
+				<option value="introduced"><spring:message code="label.introduced" text="default text" /></option>
+				<option value="discontinued"><spring:message code="label.discontinued" text="default text" /></option>
+				<option value="company"><spring:message code="label.company" text="default text" /></option>
 			</select> <input type="submit" id="searchsubmit" value="<spring:message code="button.filter.title" text="default text" />"
 				class="btn primary">
 

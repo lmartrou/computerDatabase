@@ -4,13 +4,18 @@ package com.excilys.computerDataBase.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerDataBase.om.Computer;
+import com.excilys.computerDataBase.om.QCompany;
+import com.excilys.computerDataBase.om.QComputer;
 import com.excilys.computerDataBase.wrapper.Wrapper;
+import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 @Repository
 public class ComputerDao {
@@ -25,37 +30,50 @@ public class ComputerDao {
 	/** Point d'accès pour l'instance unique du singleton */
 
 	
-	@SuppressWarnings("unchecked")
 	public List<Computer> getListComputer(Wrapper computerWrapper) {
-		System.out.println("coucou lea odsgo");
+		
 
 
 		List<Computer> listComputer = new ArrayList<Computer>();
 
 
-		if(computerWrapper.getFilterby()=="" || computerWrapper.getFilterby() == null){
-			computerWrapper.setFilterby("computer");
+		HibernateQuery query=new HibernateQuery(session.getCurrentSession());
+		QComputer computer = QComputer.computer;
+		QCompany company =QCompany.company;
+		
+	query.from(computer).leftJoin(computer.company, company);
+		
+		if(computerWrapper.getFilterby()!=null && computerWrapper.getFilter() !=null && computerWrapper.getFilter() !=""){
+		if (computerWrapper.getFilterby().equals("computer")){
+			query.where(computer.name.contains(computerWrapper.getFilter()));
 		}
-		if(computerWrapper.getOrder()=="" || computerWrapper.getOrder() == null){
-			computerWrapper.setOrder("computer.id");
+			if(computerWrapper.getFilterby().equals("company")){
+				
+				query.where(company.name.contains(computerWrapper.getFilter()));
 		}
-
-		StringBuilder sb=new StringBuilder();
-
-		if (computerWrapper.getFilter()!="" && computerWrapper.getFilter()!=null){
-			sb.append("SELECT computer FROM Computer AS computer LEFT OUTER JOIN computer.company AS company WHERE(").append(computerWrapper.getFilterby()).append(".name LIKE '%").append(computerWrapper.getFilter()).append("%') ORDER BY ").append(computerWrapper.getOrder());
-			
+		}	
+		
+		if(computerWrapper.getOrder()==null||computerWrapper.getOrder().equals("name") ||computerWrapper.getOrder().equals("")){
+			query.orderBy(computer.name.asc());
 		}
 		else{
-			sb.append("SELECT computer FROM Computer AS computer LEFT OUTER JOIN computer.company AS company ORDER BY ")
-			.append(computerWrapper.getOrder());
-			
-
+		if(computerWrapper.getOrder().equals("introduced")){
+			query.orderBy(computer.introduced.desc());
 		}
-		System.out.println(sb.toString());
-		Query query=session.getCurrentSession().createQuery(sb.toString()).setMaxResults(computerWrapper.getNumberPerPage().intValue()).setFirstResult(Integer.valueOf(computerWrapper.getOffset()));
-				listComputer= query.list();
-				System.out.println("coucou lea hikari sushi");
+		if(computerWrapper.getOrder().equals("discontinued")){
+			query.orderBy(computer.discontinued.desc());
+		}
+		if(computerWrapper.getOrder().equals("company")){
+			query.orderBy(computer.company.name.asc());
+		}
+		}
+	
+			
+			query.limit(computerWrapper.getNumberPerPage()).offset(Long.valueOf(computerWrapper.getOffset()));
+		
+        listComputer=query.list(computer);
+		
+				
 				return listComputer;
 	}
 
@@ -93,28 +111,24 @@ public Computer getComputer(Long id){
 
 
 public Long countComputer(Wrapper computerWrapper){
-	System.out.println("coucou lea otoro");
-	StringBuilder sb=new StringBuilder();
-	if (computerWrapper.getFilter()!=""&& computerWrapper.getFilter()!=null){
 
-		sb.append("SELECT count(*) FROM Computer AS cpt LEFT OUTER JOIN cpt.company AS cpn WHERE(");
-		if(computerWrapper.getFilterby()=="company"){
-			sb.append("cpn.name LIKE '%");
-		}else{
-			sb.append("cpt.name LIKE '%");
-		}
-
-		sb.append(computerWrapper.getFilter())
-		.append("%')");
-
+	HibernateQuery query=new HibernateQuery(session.getCurrentSession());
+	QComputer computer = QComputer.computer;
+	QCompany company =QCompany.company;
+	
+query.from(computer).leftJoin(computer.company, company);
+	
+	if(computerWrapper.getFilterby()!=null && computerWrapper.getFilter() !=null && computerWrapper.getFilter() !=""){
+	if (computerWrapper.getFilterby().equals("computer")){
+		query.where(computer.name.contains(computerWrapper.getFilter()));
 	}
-	else{
-
-		sb.append("SELECT count(*) FROM Computer cpt ");
-
+		if(computerWrapper.getFilterby().equals("company")){
+			
+			query.where(company.name.contains(computerWrapper.getFilter()));
 	}
-
-	Long count = (Long)(session.getCurrentSession().createQuery(sb.toString()).iterate().next());
+	}	
+	
+	Long count =query.count();
 	return count;
 	
 }
