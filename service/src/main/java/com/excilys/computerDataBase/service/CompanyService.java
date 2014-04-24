@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.computerDataBase.dao.CompanyDao;
 import com.excilys.computerDataBase.om.Company;
+import com.excilys.computerDataBase.repository.CompanyRepository;
 
 
 @Service
@@ -15,7 +15,7 @@ public class CompanyService {
 
 	
 	@Autowired
-	private CompanyDao companyDao;
+	private CompanyRepository companyDao;
 	
 	public CompanyService() {
 
@@ -27,7 +27,7 @@ public class CompanyService {
 		List<Company>	companyList=null;
 		
 
-			companyList=companyDao.getListCompany();
+			companyList=companyDao.findAll();
 		
 
 		

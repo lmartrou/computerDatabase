@@ -36,16 +36,12 @@ public class ComputerController {
 	private static final String FIELD_FILTER = "search",
 			FIELD_FILTERBY = "filterby", FIELD_ORDER = "orderby",
 			FIELD_PAGE = "page";
+	@Autowired
 	private ComputerService computerService;
+	@Autowired
 	private CompanyService companyService;
 	private List<Company> listCompany;
 
-	@Autowired
-	public ComputerController(ComputerService computerService,
-			CompanyService companyService) {
-		this.computerService = computerService;
-		this.companyService = companyService;
-	}
 
 
 
@@ -56,7 +52,6 @@ public class ComputerController {
 			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
 			@RequestParam(value = FIELD_ORDER, required = false) String order){
 
-		System.out.println("viens ce soir");
 		Long numberPerPage = new Long(20);
 		Mapper mapper = new Mapper();
 		if (page == null || page== 0l) {
