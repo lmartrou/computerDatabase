@@ -7,40 +7,11 @@
   </parent>
   <artifactId>service</artifactId>
   <dependencies>
-	<dependency>
-		<groupId>com.excilys</groupId>
-		<artifactId>persistence</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
-	
-		
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			
-			<scope>compile</scope>
-		</dependency>
-
-	
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			
-		</dependency>
+<dependency>
+<groupId>com.excilys</groupId>
+<artifactId>persistence</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+</dependency>
 
 
 </dependencies>

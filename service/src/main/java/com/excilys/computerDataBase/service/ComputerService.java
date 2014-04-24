@@ -98,10 +98,10 @@ public class ComputerService {
 		PageRequest page;
 
 		if(computerWrapper.getOrder()!=null && computerWrapper.getOrder()!=""){
-			page=new PageRequest(Integer.valueOf(computerWrapper.getOffset()),computerWrapper.getNumberPerPage().intValue(),Direction.ASC,computerWrapper.getOrder());
+			page=new PageRequest(computerWrapper.getPage().intValue()-1,computerWrapper.getNumberPerPage().intValue(),Direction.ASC,computerWrapper.getOrder());
 
 		}else{
-			page=new PageRequest(Integer.valueOf(computerWrapper.getOffset()),computerWrapper.getNumberPerPage().intValue());
+			page=new PageRequest(computerWrapper.getPage().intValue()-1,computerWrapper.getNumberPerPage().intValue());
 		}
 		
 		if(computerWrapper.getFilterby()==null ||computerWrapper.getFilterby()==""||computerWrapper.getFilter()==null ||computerWrapper.getFilter()==""){
