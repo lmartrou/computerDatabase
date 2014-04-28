@@ -121,4 +121,8 @@ public class ComputerService {
 
 		return computerWrapper;
 	}
+	public List<Computer> findAll() {
+		// TODO Auto-generated method stub
+		return computerDao.findAll();
+	}
 }
