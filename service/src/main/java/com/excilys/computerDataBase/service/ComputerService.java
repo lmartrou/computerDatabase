@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 
 @Service
+@Transactional
 public class ComputerService {
 
 	public ComputerService() {
@@ -61,18 +62,10 @@ public class ComputerService {
 
 	}
 
-	@Transactional(readOnly = false)
 	public Computer getComputer(Long id){
 
 		Computer computer = null;
-		Log log=new Log();
-		log.setOperation("getComputer");
-
 		computer = computerDao.findOne(id);
-		log.setComputerId(id);
-		log.setComputerName(computer.getName());
-		logDao.save(log);
-
 
 		return computer;
 
@@ -90,7 +83,6 @@ public class ComputerService {
 
 	}
 	
-	@Transactional(readOnly = false)
 	public Wrapper pagination(Wrapper computerWrapper) {
 		// TODO Auto-generated method stub
 		List<Computer> listComputer = null;

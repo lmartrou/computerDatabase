@@ -14,50 +14,47 @@
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
-		<guava.version>13.0</guava.version>
 		<jstl.version>1.1.2</jstl.version>
-		<log4j.version>1.2.17</log4j.version>
-		<logback.version>1.1.1</logback.version>
 		<servlet-api.version>3.1.0</servlet-api.version>
-		<slf4j.version>1.7.6</slf4j.version>
 		<jsp-api.version>2.0</jsp-api.version>
-		<spring-framework.version>4.0.2.RELEASE</spring-framework.version>
 		<javax-inject.version>1</javax-inject.version>
 		<hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
 		<joda-time.version>2.3</joda-time.version>
 		<hibernate.core.version>4.3.4.Final</hibernate.core.version>
 		<hibernate.version>4.3.4.Final</hibernate.version>
 		<jadira.version>2.0.1</jadira.version>
-		<querydsl.version>3.3.2</querydsl.version>
-		<spring-data.version>1.5.1.RELEASE</spring-data.version>
-
+		<spring-data.version>1.5.2.RELEASE</spring-data.version>
+		<spring.version>4.0.3.RELEASE</spring.version>
+		<spring-security.version>3.2.3.RELEASE</spring-security.version>
+		<logback.version>1.1.1</logback.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-		<dependency>
-	<groupId>org.hibernate</groupId>
-	<artifactId>hibernate-entitymanager</artifactId>
-	<version>4.3.4.Final</version>
-</dependency>
-            
+			<dependency>	
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+					<version>${logback.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-core</artifactId>
+					<version>${logback.version}</version>
+				</dependency>
+
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>4.3.4.Final</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
 				<version>${spring-data.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>com.mysema.querydsl</groupId>
-				<artifactId>querydsl-apt</artifactId>
-				<version>${querydsl.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.mysema.querydsl</groupId>
-				<artifactId>querydsl-jpa</artifactId>
-				<version>${querydsl.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
@@ -75,23 +72,6 @@
 				<version>${joda-time.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
 
 			<dependency>
 				<groupId>com.jolbox</groupId>
@@ -125,15 +105,42 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>${spring.version}</version>
 			</dependency>
 
 
 			<dependency>
 
 				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+				<scope>compile</scope>
+
+			</dependency>
+
+			<dependency>
+
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<scope>compile</scope>
+
+			</dependency>
+
+			<dependency>
+
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+				<scope>compile</scope>
+
+			</dependency>
+
+			<dependency>
+
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-tx</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>${spring.version}</version>
 				<scope>compile</scope>
 
 			</dependency>
@@ -142,23 +149,15 @@
 
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>${spring.version}</version>
 				<scope>compile</scope>
 
-			</dependency>
-
-
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring-framework.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>${spring.version}</version>
 			</dependency>
 
 			<dependency>
@@ -166,15 +165,28 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>${spring.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>org.jadira.usertype</groupId>
 				<artifactId>usertype.jodatime</artifactId>
 				<version>${jadira.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring-security.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

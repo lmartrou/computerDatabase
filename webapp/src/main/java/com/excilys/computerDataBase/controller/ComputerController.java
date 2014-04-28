@@ -52,6 +52,7 @@ public class ComputerController {
 			@RequestParam(value = FIELD_FILTERBY, required = false) String filterpar,
 			@RequestParam(value = FIELD_ORDER, required = false) String order){
 
+		System.out.println("va te faire voir chez les portugais");
 		Long numberPerPage = new Long(20);
 		Mapper mapper = new Mapper();
 		if (page == null || page== 0l) {
@@ -223,5 +224,20 @@ public class ComputerController {
 		return model;	
 	
 			
+	}
+	
+//	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
+//	public ModelAndView adminPage() {
+// 
+//		ModelAndView model = new ModelAndView();
+//		model.addObject("title", "Spring Security ");
+//		model.addObject("message", "This is protected page!");
+//		model.setViewName("admin");
+// 
+//		return model;
+// 
+//	}
+	{
+		System.out.println("bite");
 	}
 }

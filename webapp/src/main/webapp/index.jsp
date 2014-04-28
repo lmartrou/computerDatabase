@@ -1,4 +1,4 @@
 
 <%
-response.sendRedirect("/computerDataBase/dashboard");
+response.sendRedirect("/webapp/dashboard");
 %>
