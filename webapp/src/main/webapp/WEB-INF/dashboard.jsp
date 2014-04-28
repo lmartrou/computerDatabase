@@ -8,7 +8,7 @@
 Language : <a href="?lang=en">English</a>|<a href="?lang=fr">Français</a>
 
 	<h1 id="homeTitle">${wrapper.getCount()} <spring:message code="page.title.dashboard" text="default text" /></h1>
-
+<a href='<c:url value ="j_spring_security_logout"/>'>Deconnexion</a>
 	<div id="actions">
 		<form action="dashboard" method="GET">
 			<input type="search" id="searchbox" name="search"
@@ -27,7 +27,8 @@ Language : <a href="?lang=en">English</a>|<a href="?lang=fr">Français</a>
 				<option value="introduced"><spring:message code="label.introduced" text="default text" /></option>
 				<option value="discontinued"><spring:message code="label.discontinued" text="default text" /></option>
 				<option value="company"><spring:message code="label.company" text="default text" /></option>
-			</select> <input type="submit" id="searchsubmit" value="<spring:message code="button.filter.title" text="default text" />"
+			</select> 
+			<input type="submit" id="searchsubmit" value="<spring:message code="button.filter.title" text="default text" />"
 				class="btn primary">
 
 		</form>
