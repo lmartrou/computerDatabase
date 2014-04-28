@@ -28,20 +28,24 @@
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<spring-security.version>3.2.3.RELEASE</spring-security.version>
 		<logback.version>1.1.1</logback.version>
+		<cxf-jaxrs-jackson.version>1.9.0</cxf-jaxrs-jackson.version>
 		<cxf-jaxrs.version>2.7.0</cxf-jaxrs.version>
-
 	</properties>
 
 	<dependencyManagement>
 
 		<dependencies>
-
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 				<version>${cxf-jaxrs.version}</version>
 			</dependency>
-
+			
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-jaxrs</artifactId>
+				<version>${cxf-jaxrs-jackson.version}</version>
+			</dependency>
 
 
 			<dependency>

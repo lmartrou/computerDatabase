@@ -6,21 +6,27 @@
 		<artifactId>computerDatabase_multimode</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	 
+
 	<artifactId>webService</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>
-			<dependency>
+		<dependency>
 			<groupId>com.excilys</groupId>
 			<artifactId>service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			
+		</dependency>
 
 		<dependency>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			</dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
